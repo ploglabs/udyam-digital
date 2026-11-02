@@ -9,6 +9,7 @@ from pathlib import Path
 
 from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 from . import advisor, orders
@@ -19,6 +20,8 @@ from .registry import lookup_gstin, lookup_udyam, mask
 log = logging.getLogger("udyam")
 app = FastAPI(title="Udyam Digital API", version="0.1")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
+# Synthetic specimen documents, served so the demo UI can "upload" a sample applicant
+app.mount("/samples", StaticFiles(directory=DATA_DIR / "kyc_documents"), name="samples")
 
 EXTRACTIONS = Path(__file__).resolve().parents[2] / "analysis" / "kyc_extractions.json"
 MAX_UPLOAD = 8 * 1024 * 1024
@@ -50,12 +53,13 @@ def _mask_fields(fields: dict) -> dict:
 class ChatIn(BaseModel):
     message: str = Field(min_length=1, max_length=2000)
     session_id: str | None = None
+    language: str = "en"
 
 
 @app.post("/chat")
 def chat(body: ChatIn):
     try:
-        return advisor.chat(body.message, body.session_id)
+        return advisor.chat(body.message, body.session_id, body.language)
     except Exception as e:
         log.exception("advisor failed")
         if "429" in str(e) or "RESOURCE_EXHAUSTED" in str(e):

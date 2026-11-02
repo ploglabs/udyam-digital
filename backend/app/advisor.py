@@ -18,7 +18,7 @@ SYSTEM = """You are "Accel Saathi", the digital advisor of Accel Business (a tel
 Goal: in a few short questions, recommend the right bundle with one clear monthly price.
 
 Rules:
-- Reply in the language the owner writes in (Hindi, Marathi, Tamil, etc.; Hinglish is fine). Keep messages short and friendly, no jargon or product codes.
+- Reply in the language of the owner's LATEST message (English → English, Hindi/Hinglish → Hindi, Marathi → Marathi, etc.). If that is unclear, use the app language given in the message tag. Keep messages short and friendly, no jargon or product codes.
 - Ask at most 2 questions per message. Gather: type of business, city, number of staff, number of locations/shops,
   GST registration (offer to verify the GSTIN), current internet, and needs (billing/POS, CCTV cameras, WhatsApp for customers,
   business email, website, backup internet, phone lines/IVR, vehicles, machines, budget). Don't ask for things that are irrelevant to the business type.
@@ -76,7 +76,7 @@ class Session:
 _sessions: dict[str, Session] = {}
 
 
-def chat(message: str, session_id: str | None = None) -> dict:
+def chat(message: str, session_id: str | None = None, ui_lang: str = "en") -> dict:
     s = _sessions.get(session_id or "") or Session()
     _sessions[s.id] = s
 
@@ -101,7 +101,8 @@ def chat(message: str, session_id: str | None = None) -> dict:
 
     recommend_bundle_tool.__name__ = "recommend_bundle"
 
-    s.history.append(types.Content(role="user", parts=[types.Part(text=message)]))
+    lang_name = {"en": "English", "hi": "Hindi"}.get(ui_lang, "English")
+    s.history.append(types.Content(role="user", parts=[types.Part(text=f"[app language: {lang_name}]\n{message}")]))
     resp = generate(
         s.history,
         config=types.GenerateContentConfig(
@@ -126,5 +127,6 @@ def get_session(session_id: str) -> Session | None:
 def catalogue_public() -> list[dict]:
     return [{"id": p.id, "category": p.category, "name": p.name, "description": p.description, "unit": p.unit,
              "price": p.price_min, "setup": p.setup, "min_contract": p.min_contract, "install_days": p.install_days,
-             "requires_gstin": p.requires_gstin, "requires_one_of": sorted(p.requires_one_of)}
+             "requires_gstin": p.requires_gstin, "requires_one_of": sorted(p.requires_one_of),
+             "segments": sorted(p.segments), "min_employees": p.min_employees, "min_sites": p.min_sites}
             for p in products().values()]

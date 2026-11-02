@@ -8,7 +8,8 @@
 - [x] Advisor `/chat` (`backend/app/advisor.py`): Gemini function calling over `recommend_bundle`, `get_city_tier`, `check_gstin`; tested live in Hindi
 - [x] FastAPI routes (`backend/app/main.py`) + SQLite consent/KYC/orders/tracker (`backend/app/orders.py`)
 - [x] 25 tests passing (rules, KYC, end-to-end API flow, 7 advisor scenarios through `/recommend`)
-- [ ] Next.js frontend: advisor, quote, KYC, tracker
+- [x] Next.js frontend (`frontend/`): landing, advisor chat (EN/HI, quick replies, voice, form fallback), live quote, KYC (consent → upload → results → order), tracker
+- [x] Browser test of the whole journey (`tests/e2e_journey.py`): passes at 390×844, no console errors
 - [ ] Slides, architecture diagram, privacy note, demo video
 
 ## Gemini
@@ -65,5 +66,8 @@ Still worth checking by eye before the demo: K09, K10 and K12. The designations 
 Uploads that match a specimen image (by SHA-256) reuse `analysis/kyc_extractions.json`, so the demo uses no Gemini quota.
 
 ### Gotchas
+- Next 16 scaffold enables `cacheComponents`. Pages are client components that fetch in the browser; `/track` reads `?id=` inside `<Suspense>`.
+- The advisor gets the UI language with each message (`[app language: …]`); without it, Gemini sometimes answered English questions in Hindi.
+- Don't `pkill -f "next start"` from a shell whose own command line contains that text: it kills itself. Stop the servers by port instead.
 - Don't use `from __future__ import annotations` in `advisor.py`: the Gemini SDK can't convert string type hints for tool functions (every tool call errors out).
 - The advisor prompt must forbid setting `wants_*` flags the owner didn't ask for; otherwise Gemini adds email/backup to a kirana bundle.

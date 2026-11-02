@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand: #d6001c;
+  --color-brand-strong: #b00017;
+  --color-brand-soft: #fdecee;
+  --color-ink: #16181d;
+  --color-muted: #5f6672;
+  --color-line: #e4e6eb;
+  --color-surface: #ffffff;
+  --color-sunken: #f5f6f8;
+  --color-good: #11804a;
+  --color-good-soft: #e7f5ee;
+  --color-warn: #a05a00;
+  --color-warn-soft: #fff4e0;
+  --color-bad: #c4122f;
+  --color-bad-soft: #fdebee;
+  --font-sans: var(--font-geist-sans), var(--font-deva), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+html {
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background: var(--color-sunken);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.animate-rise {
+  animation: rise 0.25s ease-out both;
+}
