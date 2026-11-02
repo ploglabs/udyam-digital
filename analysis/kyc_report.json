@@ -1,0 +1,728 @@
+{
+ "K01": {
+  "verdict": "rejected",
+  "gstin_active": false,
+  "business_name": "Vindhya Tours & Travels",
+  "findings": [
+   {
+    "code": "IMAGE_QUALITY",
+    "severity": "warn",
+    "message": "Udyam Certificate image is blurry, so ask the customer to re-upload a clearer photo",
+    "doc": "udyam_certificate",
+    "value": null
+   },
+   {
+    "code": "GSTIN_FORMAT",
+    "severity": "pass",
+    "message": "GSTIN format and check digit are valid",
+    "doc": "gst_certificate",
+    "value": null
+   },
+   {
+    "code": "GSTIN_INACTIVE",
+    "severity": "fail",
+    "message": "GST registration is Cancelled in the registry",
+    "doc": "gst_certificate",
+    "value": null
+   },
+   {
+    "code": "UDYAM_NUMBER_MISSING",
+    "severity": "fail",
+    "message": "Udyam registration number is blank on the certificate",
+    "doc": "udyam_certificate",
+    "value": null
+   },
+   {
+    "code": "SIGNATORY_ID_VALID",
+    "severity": "pass",
+    "message": "Signatory ID is within validity",
+    "doc": "signatory_id",
+    "value": null
+   },
+   {
+    "code": "ADDRESS_PROOF_RECENT",
+    "severity": "pass",
+    "message": "Address proof is 19 days old",
+    "doc": "address_proof",
+    "value": null
+   },
+   {
+    "code": "ADDRESS_MATCH",
+    "severity": "pass",
+    "message": "Address matches the GST principal place of business",
+    "doc": "address_proof",
+    "value": null
+   }
+  ],
+  "summary": [
+   "GST registration is Cancelled in the registry",
+   "Udyam registration number is blank on the certificate",
+   "Udyam Certificate image is blurry, so ask the customer to re-upload a clearer photo"
+  ],
+  "ocr_notes": [
+   "K01_address_proof.png: watermark",
+   "K01_gst_certificate.png: Watermark obscures text",
+   "K01_signatory_id.png: synthetic_specimen",
+   "K01_udyam_certificate.png: Document is a specimen/synthetic",
+   "K01_udyam_certificate.png: Udyam reg. number is blank/unreadable"
+  ]
+ },
+ "K02": {
+  "verdict": "approved",
+  "gstin_active": true,
+  "business_name": "Harmony Dental Care",
+  "findings": [
+   {
+    "code": "GSTIN_FORMAT",
+    "severity": "pass",
+    "message": "GSTIN read as 19E0********1ZL, auto-corrected OCR confusion to 19EO********1ZL (check digit valid)",
+    "doc": "gst_certificate",
+    "value": "19EOGXH4115Y1ZL"
+   },
+   {
+    "code": "GSTIN_ACTIVE",
+    "severity": "pass",
+    "message": "GST registration is Active in the registry",
+    "doc": "gst_certificate",
+    "value": null
+   },
+   {
+    "code": "UDYAM_FOUND",
+    "severity": "pass",
+    "message": "Udyam registered as Small enterprise",
+    "doc": "udyam_certificate",
+    "value": null
+   },
+   {
+    "code": "SIGNATORY_ID_VALID",
+    "severity": "pass",
+    "message": "Signatory ID is within validity",
+    "doc": "signatory_id",
+    "value": null
+   },
+   {
+    "code": "ADDRESS_PROOF_RECENT",
+    "severity": "pass",
+    "message": "Address proof is 54 days old",
+    "doc": "address_proof",
+    "value": null
+   },
+   {
+    "code": "ADDRESS_MATCH",
+    "severity": "pass",
+    "message": "Address matches the GST principal place of business",
+    "doc": "address_proof",
+    "value": null
+   }
+  ],
+  "summary": [
+   "All checks passed"
+  ],
+  "ocr_notes": [
+   "K02_address_proof.png: Document is a synthetic specimen and not a valid document",
+   "K02_gst_certificate.png: Document is a synthetic specimen and not a valid document",
+   "K02_signatory_id.png: SYNTHETIC SPECIMEN - NOT A VALID DOCUMENT",
+   "K02_udyam_certificate.png: Document is a specimen/synthetic document, not a valid one.",
+   "K02_udyam_certificate.png: Watermark 'SYNTHETIC SPECIMEN - NOT A VALID DOCUM' is present."
+  ]
+ },
+ "K03": {
+  "verdict": "approved",
+  "gstin_active": true,
+  "business_name": "Ganesh Woodcraft",
+  "findings": [
+   {
+    "code": "GSTIN_FORMAT",
+    "severity": "pass",
+    "message": "GSTIN format and check digit are valid",
+    "doc": "gst_certificate",
+    "value": null
+   },
+   {
+    "code": "GSTIN_ACTIVE",
+    "severity": "pass",
+    "message": "GST registration is Active in the registry",
+    "doc": "gst_certificate",
+    "value": null
+   },
+   {
+    "code": "UDYAM_FOUND",
+    "severity": "pass",
+    "message": "Udyam registered as Micro enterprise",
+    "doc": "udyam_certificate",
+    "value": null
+   },
+   {
+    "code": "SIGNATORY_ID_VALID",
+    "severity": "pass",
+    "message": "Signatory ID is within validity",
+    "doc": "signatory_id",
+    "value": null
+   },
+   {
+    "code": "ADDRESS_PROOF_RECENT",
+    "severity": "pass",
+    "message": "Address proof is 46 days old",
+    "doc": "address_proof",
+    "value": null
+   },
+   {
+    "code": "ADDRESS_MATCH",
+    "severity": "pass",
+    "message": "Address matches the GST principal place of business",
+    "doc": "address_proof",
+    "value": null
+   }
+  ],
+  "summary": [
+   "All checks passed"
+  ],
+  "ocr_notes": [
+   "K03_address_proof.png: Watermark 'SYNTHETIC SPECIMEN - NOT A VALID DOCUM' indicates it's not a valid document",
+   "K03_address_proof.png: Possible typo in 'Maharashtr'",
+   "K03_gst_certificate.png: Watermark 'SYNTHETIC SPECIMEN - NOT A VALID DOCUMENT' indicates a non-original document",
+   "K03_gst_certificate.png: Typo in address: 'Maharashtr' instead of 'Maharashtra'",
+   "K03_gst_certificate.png: Ambiguous 'place of business' field: 'a - 411231'",
+   "K03_signatory_id.png: SYNTHETIC SPECIMEN - NOT A VALID DOCUMENT",
+   "K03_udyam_certificate.png: document is a synthetic specimen and not a valid document"
+  ]
+ },
+ "K04": {
+  "verdict": "manual_review",
+  "gstin_active": true,
+  "business_name": "Saffron Dental Care LLP",
+  "findings": [
+   {
+    "code": "IMAGE_QUALITY",
+    "severity": "warn",
+    "message": "Gst Certificate image is blurry, so ask the customer to re-upload a clearer photo",
+    "doc": "gst_certificate",
+    "value": null
+   },
+   {
+    "code": "GSTIN_FORMAT",
+    "severity": "pass",
+    "message": "GSTIN read as 27PZ********1ZH, auto-corrected OCR confusion to 27PZ********1ZH (check digit valid)",
+    "doc": "gst_certificate",
+    "value": "27PZSXS1936O1ZH"
+   },
+   {
+    "code": "GSTIN_ACTIVE",
+    "severity": "pass",
+    "message": "GST registration is Active in the registry",
+    "doc": "gst_certificate",
+    "value": null
+   },
+   {
+    "code": "UDYAM_FOUND",
+    "severity": "pass",
+    "message": "Udyam registered as Micro enterprise",
+    "doc": "udyam_certificate",
+    "value": null
+   },
+   {
+    "code": "SIGNATORY_ID_VALID",
+    "severity": "pass",
+    "message": "Signatory ID is within validity",
+    "doc": "signatory_id",
+    "value": null
+   },
+   {
+    "code": "ADDRESS_PROOF_RECENT",
+    "severity": "pass",
+    "message": "Address proof is 48 days old",
+    "doc": "address_proof",
+    "value": null
+   },
+   {
+    "code": "ADDRESS_MATCH",
+    "severity": "pass",
+    "message": "Address matches the GST principal place of business",
+    "doc": "address_proof",
+    "value": null
+   }
+  ],
+  "summary": [
+   "Gst Certificate image is blurry, so ask the customer to re-upload a clearer photo"
+  ],
+  "ocr_notes": [
+   "K04_address_proof.png: watermark: SYNTHETIC SPECIMEN - NOT A VALID DOCUM",
+   "K04_gst_certificate.png: Watermark 'SYNTHETIC SPECIMEN - NOT A VALID DOCUM' present",
+   "K04_gst_certificate.png: Text is blurry",
+   "K04_udyam_certificate.png: Document is a specimen/test document with watermarks indicating it's not valid.",
+   "K04_udyam_certificate.png: Fictional data used as indicated by footer text."
+  ]
+ },
+ "K05": {
+  "verdict": "rejected",
+  "gstin_active": true,
+  "business_name": "Balaji Realty LLP",
+  "findings": [
+   {
+    "code": "DOC_MISSING",
+    "severity": "fail",
+    "message": "Udyam Certificate was not uploaded",
+    "doc": "udyam_certificate",
+    "value": null
+   },
+   {
+    "code": "GSTIN_FORMAT",
+    "severity": "pass",
+    "message": "GSTIN format and check digit are valid",
+    "doc": "gst_certificate",
+    "value": null
+   },
+   {
+    "code": "GSTIN_ACTIVE",
+    "severity": "pass",
+    "message": "GST registration is Active in the registry",
+    "doc": "gst_certificate",
+    "value": null
+   },
+   {
+    "code": "SIGNATORY_ID_VALID",
+    "severity": "pass",
+    "message": "Signatory ID is within validity",
+    "doc": "signatory_id",
+    "value": null
+   },
+   {
+    "code": "ADDRESS_PROOF_RECENT",
+    "severity": "pass",
+    "message": "Address proof is 34 days old",
+    "doc": "address_proof",
+    "value": null
+   },
+   {
+    "code": "ADDRESS_MATCH",
+    "severity": "pass",
+    "message": "Address matches the GST principal place of business",
+    "doc": "address_proof",
+    "value": null
+   }
+  ],
+  "summary": [
+   "Udyam Certificate was not uploaded"
+  ],
+  "ocr_notes": [
+   "K05_address_proof.png: Synthetic document watermark",
+   "K05_gst_certificate.png: watermark_present",
+   "K05_signatory_id.png: SYNTHETIC SPECIMEN - NOT A VALID DOCUMENT"
+  ]
+ },
+ "K06": {
+  "verdict": "rejected",
+  "gstin_active": false,
+  "business_name": "Saffron Unisex Salon",
+  "findings": [
+   {
+    "code": "GSTIN_CHECKSUM",
+    "severity": "fail",
+    "message": "GSTIN 08YK********1Z0 has an invalid check digit (likely a typo or tampering)",
+    "doc": "gst_certificate",
+    "value": null
+   },
+   {
+    "code": "UDYAM_FOUND",
+    "severity": "pass",
+    "message": "Udyam registered as Micro enterprise",
+    "doc": "udyam_certificate",
+    "value": null
+   },
+   {
+    "code": "SIGNATORY_ID_VALID",
+    "severity": "pass",
+    "message": "Signatory ID is within validity",
+    "doc": "signatory_id",
+    "value": null
+   },
+   {
+    "code": "ADDRESS_PROOF_RECENT",
+    "severity": "pass",
+    "message": "Address proof is 34 days old",
+    "doc": "address_proof",
+    "value": null
+   },
+   {
+    "code": "ADDRESS_MATCH",
+    "severity": "pass",
+    "message": "Address matches the GST principal place of business",
+    "doc": "address_proof",
+    "value": null
+   }
+  ],
+  "summary": [
+   "GSTIN 08YK********1Z0 has an invalid check digit (likely a typo or tampering)"
+  ],
+  "ocr_notes": [
+   "K06_address_proof.png: Document contains a prominent watermark: 'SYNTHETIC SPECIMEN - NOT A VALID DOCUM'",
+   "K06_address_proof.png: Document is explicitly stated as 'Fictional utility - address proof for OCR testing' and 'Fictional business, person and identifiers.'",
+   "K06_gst_certificate.png: document is a specimen/test document",
+   "K06_gst_certificate.png: watermark present",
+   "K06_signatory_id.png: SYNTHETIC SPECIMEN - NOT A VALID DOCUMENT",
+   "K06_udyam_certificate.png: document is a specimen/synthetic",
+   "K06_udyam_certificate.png: watermark present"
+  ]
+ },
+ "K07": {
+  "verdict": "rejected",
+  "gstin_active": true,
+  "business_name": "Neelgiri Physio Clinic",
+  "findings": [
+   {
+    "code": "GSTIN_FORMAT",
+    "severity": "pass",
+    "message": "GSTIN format and check digit are valid",
+    "doc": "gst_certificate",
+    "value": null
+   },
+   {
+    "code": "GSTIN_ACTIVE",
+    "severity": "pass",
+    "message": "GST registration is Active in the registry",
+    "doc": "gst_certificate",
+    "value": null
+   },
+   {
+    "code": "GST_NAME_MISMATCH",
+    "severity": "fail",
+    "message": "Legal name on certificate ('Neha Banerjee (Prop. Shri Physio Clinic)') does not match registry ('Neha Banerjee (Prop. Neelgiri Physio Clinic)')",
+    "doc": "gst_certificate",
+    "value": null
+   },
+   {
+    "code": "UDYAM_FOUND",
+    "severity": "pass",
+    "message": "Udyam registered as Small enterprise",
+    "doc": "udyam_certificate",
+    "value": null
+   },
+   {
+    "code": "SIGNATORY_ID_VALID",
+    "severity": "pass",
+    "message": "Signatory ID is within validity",
+    "doc": "signatory_id",
+    "value": null
+   },
+   {
+    "code": "ADDRESS_PROOF_RECENT",
+    "severity": "pass",
+    "message": "Address proof is 10 days old",
+    "doc": "address_proof",
+    "value": null
+   },
+   {
+    "code": "ADDRESS_MATCH",
+    "severity": "pass",
+    "message": "Address matches the GST principal place of business",
+    "doc": "address_proof",
+    "value": null
+   }
+  ],
+  "summary": [
+   "Legal name on certificate ('Neha Banerjee (Prop. Shri Physio Clinic)') does not match registry ('Neha Banerjee (Prop. Neelgiri Physio Clinic)')"
+  ],
+  "ocr_notes": [
+   "K07_address_proof.png: document is a synthetic specimen and not a valid document",
+   "K07_gst_certificate.png: document is a synthetic specimen",
+   "K07_gst_certificate.png: place of business field contains only a number (likely a PIN code) instead of a descriptive place name",
+   "K07_signatory_id.png: SYNTHETIC SPECIMEN - NOT A VALID DOCUMENT",
+   "K07_udyam_certificate.png: Document is a specimen/synthetic",
+   "K07_udyam_certificate.png: Watermark 'SYNTHETIC SPECIMEN - NOT A VALID DOCUM' present"
+  ]
+ },
+ "K08": {
+  "verdict": "approved",
+  "gstin_active": true,
+  "business_name": "Green Leaf Legal Associates",
+  "findings": [
+   {
+    "code": "GSTIN_FORMAT",
+    "severity": "pass",
+    "message": "GSTIN read as 24X0********1Z3, auto-corrected OCR confusion to 24XO********1Z3 (check digit valid)",
+    "doc": "gst_certificate",
+    "value": "24XORXG9365M1Z3"
+   },
+   {
+    "code": "GSTIN_ACTIVE",
+    "severity": "pass",
+    "message": "GST registration is Active in the registry",
+    "doc": "gst_certificate",
+    "value": null
+   },
+   {
+    "code": "UDYAM_FOUND",
+    "severity": "pass",
+    "message": "Udyam registered as Small enterprise",
+    "doc": "udyam_certificate",
+    "value": null
+   },
+   {
+    "code": "SIGNATORY_ID_VALID",
+    "severity": "pass",
+    "message": "Signatory ID is within validity",
+    "doc": "signatory_id",
+    "value": null
+   },
+   {
+    "code": "ADDRESS_PROOF_RECENT",
+    "severity": "pass",
+    "message": "Address proof is 50 days old",
+    "doc": "address_proof",
+    "value": null
+   },
+   {
+    "code": "ADDRESS_MATCH",
+    "severity": "pass",
+    "message": "Address matches the GST principal place of business",
+    "doc": "address_proof",
+    "value": null
+   }
+  ],
+  "summary": [
+   "All checks passed"
+  ],
+  "ocr_notes": [
+   "K08_address_proof.png: Watermark present",
+   "K08_address_proof.png: Document is a synthetic specimen",
+   "K08_gst_certificate.png: Watermark 'SYNTHETIC SPECIMEN - NOT A VALID DOCUMENT' obscures text",
+   "K08_gst_certificate.png: Document is a specimen/test data",
+   "K08_signatory_id.png: synthetic_specimen",
+   "K08_udyam_certificate.png: Watermark indicating it is a specimen/test document",
+   "K08_udyam_certificate.png: Document explicitly states 'Format for hackathon OCR testing only' and 'Fictional business, person and identifiers.'"
+  ]
+ },
+ "K09": {
+  "verdict": "approved",
+  "gstin_active": true,
+  "business_name": "Kaveri Insurance Advisors",
+  "findings": [
+   {
+    "code": "GSTIN_FORMAT",
+    "severity": "pass",
+    "message": "GSTIN format and check digit are valid",
+    "doc": "gst_certificate",
+    "value": null
+   },
+   {
+    "code": "GSTIN_ACTIVE",
+    "severity": "pass",
+    "message": "GST registration is Active in the registry",
+    "doc": "gst_certificate",
+    "value": null
+   },
+   {
+    "code": "UDYAM_FOUND",
+    "severity": "pass",
+    "message": "Udyam registered as Micro enterprise",
+    "doc": "udyam_certificate",
+    "value": null
+   },
+   {
+    "code": "SIGNATORY_ID_VALID",
+    "severity": "pass",
+    "message": "Signatory ID is within validity",
+    "doc": "signatory_id",
+    "value": null
+   },
+   {
+    "code": "ADDRESS_PROOF_RECENT",
+    "severity": "pass",
+    "message": "Address proof is 5 days old",
+    "doc": "address_proof",
+    "value": null
+   },
+   {
+    "code": "ADDRESS_MATCH",
+    "severity": "pass",
+    "message": "Address matches the GST principal place of business",
+    "doc": "address_proof",
+    "value": null
+   }
+  ],
+  "summary": [
+   "All checks passed"
+  ],
+  "ocr_notes": [
+   "K09_address_proof.png: Watermark present",
+   "K09_signatory_id.png: SYNTHETIC SPECIMEN - NOT A VALID DOCUMENT",
+   "K09_udyam_certificate.png: Document is a synthetic specimen and not a valid document"
+  ]
+ },
+ "K10": {
+  "verdict": "approved",
+  "gstin_active": true,
+  "business_name": "Kaveri Stays LLP",
+  "findings": [
+   {
+    "code": "GSTIN_FORMAT",
+    "severity": "pass",
+    "message": "GSTIN read as 27QH*********1ZL, auto-corrected OCR confusion to 27QH********1ZL (check digit valid)",
+    "doc": "gst_certificate",
+    "value": "27QHJXK0658U1ZL"
+   },
+   {
+    "code": "GSTIN_ACTIVE",
+    "severity": "pass",
+    "message": "GST registration is Active in the registry",
+    "doc": "gst_certificate",
+    "value": null
+   },
+   {
+    "code": "UDYAM_FOUND",
+    "severity": "pass",
+    "message": "Udyam registered as Small enterprise",
+    "doc": "udyam_certificate",
+    "value": null
+   },
+   {
+    "code": "SIGNATORY_ID_VALID",
+    "severity": "pass",
+    "message": "Signatory ID is within validity",
+    "doc": "signatory_id",
+    "value": null
+   },
+   {
+    "code": "ADDRESS_PROOF_RECENT",
+    "severity": "pass",
+    "message": "Address proof is 27 days old",
+    "doc": "address_proof",
+    "value": null
+   },
+   {
+    "code": "ADDRESS_MATCH",
+    "severity": "pass",
+    "message": "Address matches the GST principal place of business",
+    "doc": "address_proof",
+    "value": null
+   }
+  ],
+  "summary": [
+   "All checks passed"
+  ],
+  "ocr_notes": [
+   "K10_address_proof.png: watermark",
+   "K10_gst_certificate.png: Watermark indicates document is a specimen and not valid",
+   "K10_gst_certificate.png: Document explicitly states it is test data and fictional",
+   "K10_signatory_id.png: SYNTHETIC SPECIMEN - NOT A VALID DOCUMENT",
+   "K10_udyam_certificate.png: document is a specimen/sample",
+   "K10_udyam_certificate.png: watermark present"
+  ]
+ },
+ "K11": {
+  "verdict": "rejected",
+  "gstin_active": true,
+  "business_name": "Trinity Bake House Pvt Ltd",
+  "findings": [
+   {
+    "code": "GSTIN_FORMAT",
+    "severity": "pass",
+    "message": "GSTIN format and check digit are valid",
+    "doc": "gst_certificate",
+    "value": null
+   },
+   {
+    "code": "GSTIN_ACTIVE",
+    "severity": "pass",
+    "message": "GST registration is Active in the registry",
+    "doc": "gst_certificate",
+    "value": null
+   },
+   {
+    "code": "UDYAM_FOUND",
+    "severity": "pass",
+    "message": "Udyam registered as Micro enterprise",
+    "doc": "udyam_certificate",
+    "value": null
+   },
+   {
+    "code": "SIGNATORY_ID_VALID",
+    "severity": "pass",
+    "message": "Signatory ID is within validity",
+    "doc": "signatory_id",
+    "value": null
+   },
+   {
+    "code": "ADDRESS_PROOF_OLD",
+    "severity": "fail",
+    "message": "Address proof is dated 2025-10-31 (257 days old; must be within 90 days)",
+    "doc": "address_proof",
+    "value": null
+   },
+   {
+    "code": "ADDRESS_MATCH",
+    "severity": "pass",
+    "message": "Address matches the GST principal place of business",
+    "doc": "address_proof",
+    "value": null
+   }
+  ],
+  "summary": [
+   "Address proof is dated 2025-10-31 (257 days old; must be within 90 days)"
+  ],
+  "ocr_notes": [
+   "K11_address_proof.png: watermark",
+   "K11_gst_certificate.png: Document is a synthetic specimen and explicitly states 'NOT A VALID DOCUMENT'",
+   "K11_gst_certificate.png: Text is partially obscured by watermark",
+   "K11_signatory_id.png: SYNTHETIC SPECIMEN - NOT A VALID DOCUMENT",
+   "K11_udyam_certificate.png: Watermark 'SYNTHETIC SPECIMEN - NOT A VALID DOCUM' present"
+  ]
+ },
+ "K12": {
+  "verdict": "approved",
+  "gstin_active": true,
+  "business_name": "Star Electronics",
+  "findings": [
+   {
+    "code": "GSTIN_FORMAT",
+    "severity": "pass",
+    "message": "GSTIN format and check digit are valid",
+    "doc": "gst_certificate",
+    "value": null
+   },
+   {
+    "code": "GSTIN_ACTIVE",
+    "severity": "pass",
+    "message": "GST registration is Active in the registry",
+    "doc": "gst_certificate",
+    "value": null
+   },
+   {
+    "code": "UDYAM_FOUND",
+    "severity": "pass",
+    "message": "Udyam registered as Micro enterprise",
+    "doc": "udyam_certificate",
+    "value": null
+   },
+   {
+    "code": "SIGNATORY_ID_VALID",
+    "severity": "pass",
+    "message": "Signatory ID is within validity",
+    "doc": "signatory_id",
+    "value": null
+   },
+   {
+    "code": "ADDRESS_PROOF_RECENT",
+    "severity": "pass",
+    "message": "Address proof is 9 days old",
+    "doc": "address_proof",
+    "value": null
+   },
+   {
+    "code": "ADDRESS_MATCH",
+    "severity": "pass",
+    "message": "Address matches the GST principal place of business",
+    "doc": "address_proof",
+    "value": null
+   }
+  ],
+  "summary": [
+   "All checks passed"
+  ],
+  "ocr_notes": [
+   "K12_address_proof.png: synthetic_document",
+   "K12_gst_certificate.png: Watermark present across the document",
+   "K12_signatory_id.png: SYNTHETIC SPECIMEN - NOT A VALID DOCUMENT"
+  ]
+ }
+}
