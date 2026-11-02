@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Udyam Digital: Data privacy and security note</title>
+<style>
+  @page { size: A4; margin: 13mm 14mm 12mm; }
+  :root { --red: #d50f25; --ink: #1a1a1a; --muted: #5f6672; --line: #e4e6eb; --tint: #fdecee; }
+  * { box-sizing: border-box; }
+  body { font-family: Calibri, Carlito, "Segoe UI", Arial, sans-serif; color: var(--ink); font-size: 9.6pt; line-height: 1.32; margin: 0; }
+  header { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2px solid var(--ink); padding-bottom: 5px; margin-bottom: 8px; }
+  h1 { font-size: 17pt; margin: 0; letter-spacing: -0.2px; }
+  header p { margin: 2px 0 0; color: var(--muted); font-size: 9pt; }
+  .tag { font-size: 8.5pt; color: var(--muted); text-align: right; white-space: nowrap; }
+  .lead { background: var(--tint); border-radius: 6px; padding: 6px 9px; margin: 0 0 8px; }
+  .lead b { color: var(--red); }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px 14px; }
+  section h2 { font-size: 10.6pt; margin: 0 0 2px; color: var(--red); }
+  section p, section ul { margin: 0; }
+  ul { padding-left: 13px; }
+  li { margin: 0 0 1.5px; }
+  table { width: 100%; border-collapse: collapse; font-size: 8.8pt; margin-top: 2px; }
+  th, td { border: 1px solid var(--line); padding: 2.5px 5px; text-align: left; vertical-align: top; }
+  th { background: #f3f4f6; }
+  .full { grid-column: 1 / -1; }
+  code { font-family: Consolas, "DejaVu Sans Mono", monospace; font-size: 8.4pt; background: #f3f4f6; padding: 0 2px; border-radius: 2px; }
+  footer { margin-top: 7px; color: var(--muted); font-size: 8pt; border-top: 1px solid var(--line); padding-top: 4px; }
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>Data privacy and security note</h1>
+    <p>Udyam Digital · MSME onboarding for Accel Business · Airtel SYNC, Enterprise Track A</p>
+  </div>
+  <div class="tag">Designed against the<br>DPDP Act, 2023</div>
+</header>
+
+<p class="lead"><b>Principle:</b> collect only what each step needs, only after consent, keep it only as long as needed, and never show or log a full identifier. Every point below describes how the working prototype behaves; items marked <b>Production</b> are what we would add before launch.</p>
+
+<div class="grid">
+  <section>
+    <h2>1 · Consent before any KYC data</h2>
+    <ul>
+      <li>A notice is shown before any document upload: purposes, data collected, data <i>not</i> collected, retention, grievance contact.</li>
+      <li>Consent is per purpose. <i>KYC verification</i> and <i>service activation</i> are required. <i>Marketing</i> is optional and off by default.</li>
+      <li>Each consent gets an ID and a timestamp (audit trail). Withdrawing it from the KYC screen erases that application's KYC data.</li>
+    </ul>
+  </section>
+  <section>
+    <h2>2 · Purpose limitation</h2>
+    <ul>
+      <li>KYC data is used only to verify the business and activate the services ordered.</li>
+      <li>The GenAI advisor needs no personal data. It is instructed never to ask for Aadhaar, PAN, bank details or documents in chat.</li>
+      <li>Marketing messages only with the separate, optional consent.</li>
+    </ul>
+  </section>
+
+  <section class="full">
+    <h2>3 · Data minimisation: what we collect, and why</h2>
+    <table>
+      <tr><th>Step</th><th>Collected</th><th>Why it is needed</th><th>Never collected</th></tr>
+      <tr><td>Advisor</td><td>Business type, city, staff, sites, needs (no names or IDs)</td><td>Pick an eligible bundle and price</td><td rowspan="3">Aadhaar number, bank or card details, personal photos, date of birth</td></tr>
+      <tr><td>KYC</td><td>GSTIN, Udyam no., business name and address, signatory name and ID validity, bill date</td><td>Verify the business is real, active and at that address</td></tr>
+      <tr><td>Order</td><td>Mobile number</td><td>Order updates and e-sign link</td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>4 · Storage and retention</h2>
+    <ul>
+      <li><b>Document images are never stored.</b> They are processed in memory, the fields are extracted, and the image is discarded.</li>
+      <li>Only the extracted fields and the verdict (approve / review / reject with reasons) are kept, linked to the consent ID.</li>
+      <li>Retention: for the contract term, plus any period telecom KYC rules require. The prototype states contract term + 8 years; <b>Production:</b> confirm the exact period with legal against DoT rules. Then delete automatically.</li>
+    </ul>
+  </section>
+  <section>
+    <h2>5 · Masking everywhere</h2>
+    <ul>
+      <li>Identifiers are masked in the UI, in API responses and in the order record: GSTIN <code>32TT********1ZW</code>, Udyam <code>UDYAM-KL-*******801</code>, phone <code>98******10</code>.</li>
+      <li>Logs record only the KYC application ID, document type and how it was read, never field values.</li>
+      <li>Journey state lives in the browser's session storage and is gone when the tab closes.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>6 · Use of AI (Gemini)</h2>
+    <ul>
+      <li>Gemini receives only the uploaded document image (to read it) and the chat text. No stored customer records are sent.</li>
+      <li>AI never makes the KYC decision alone. Deterministic rules decide: GSTIN check digit, registry status, cross-document matching. AI output that fails the check digit is rejected.</li>
+      <li><b>Production:</b> move from the free API tier to an enterprise tier with no training on customer data and India data residency.</li>
+    </ul>
+  </section>
+  <section>
+    <h2>7 · Security controls</h2>
+    <ul>
+      <li>Uploads limited to PNG, JPEG, WEBP or PDF up to 8 MB. Typed validation of API inputs (e.g. Indian mobile number format).</li>
+      <li>API keys kept in an environment file, never in code or the repository.</li>
+      <li><b>Production:</b> TLS everywhere, encrypted database and backups, role-based access and audit logs for the partner/back-office view, rate limiting, secrets in a vault, and annual security testing.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>8 · Owner rights</h2>
+    <ul>
+      <li>Access: the order tracker shows the business details, services and status we hold.</li>
+      <li>Correction: re-upload any document. Erasure: withdraw consent before activation; after activation, on request once legal retention ends.</li>
+      <li>A named grievance contact is shown on the consent screen.</li>
+    </ul>
+  </section>
+  <section>
+    <h2>9 · Breach response</h2>
+    <ul>
+      <li>Because images aren't stored and identifiers are masked, a breach exposes far less.</li>
+      <li>Incident runbook: contain, assess, then notify the Data Protection Board and affected owners as the DPDP Rules require. Then review and fix.</li>
+    </ul>
+  </section>
+</div>
+
+<footer>All businesses, people and identifiers in the prototype are synthetic (hackathon dataset). Accel Telecom / Accel Business is the fictional operator used by the case.</footer>
+</body>
+</html>

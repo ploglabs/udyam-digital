@@ -10,7 +10,10 @@
 - [x] 25 tests passing (rules, KYC, end-to-end API flow, 7 advisor scenarios through `/recommend`)
 - [x] Next.js frontend (`frontend/`): landing, advisor chat (EN/HI, quick replies, voice, form fallback), live quote, KYC (consent → upload → results → order), tracker
 - [x] Browser test of the whole journey (`tests/e2e_journey.py`): passes at 390×844, no console errors
-- [ ] Slides, architecture diagram, privacy note, demo video
+- [x] Business case deck, 10 slides on the SYNC template (`deliverables/Udyam_Digital_Business_Case.pptx` + `.pdf`; rebuild with `deliverables/build_deck.js`)
+- [x] 1-page privacy & security note (`deliverables/Privacy_Note.pdf`, source `privacy_note.html`)
+- [ ] Architecture diagram, deploy, demo video
+- [ ] Follow-ups: KYC check messages are English-only in Hindi mode; confirm the KYC retention period with legal
 
 ## Gemini
 - Keys are in `backend/.env` (git-ignored), as `GEMINI_API_KEYS=k1,k2,...`. `app/llm.py` moves to the next key on a 429 error.
