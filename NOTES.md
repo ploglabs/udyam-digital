@@ -5,9 +5,9 @@
 - [x] Mock GSTIN/Udyam registry + ID masking (`backend/app/registry.py`)
 - [x] KYC validators (`backend/app/kyc/validators.py`) + Gemini vision extraction (`backend/app/kyc/extract.py`)
 - [x] All 47 specimen documents extracted and validated (`analysis/kyc_extractions.json`, `analysis/kyc_report.json`)
-- [x] 11 tests passing (`cd backend && python3 -m pytest -q`)
-- [ ] Advisor `/chat` (Gemini function calling over `recommend_bundle`)
-- [ ] FastAPI routes + SQLite orders/tracker
+- [x] Advisor `/chat` (`backend/app/advisor.py`): Gemini function calling over `recommend_bundle`, `get_city_tier`, `check_gstin`; tested live in Hindi
+- [x] FastAPI routes (`backend/app/main.py`) + SQLite consent/KYC/orders/tracker (`backend/app/orders.py`)
+- [x] 25 tests passing (rules, KYC, end-to-end API flow, 7 advisor scenarios through `/recommend`)
 - [ ] Next.js frontend: advisor, quote, KYC, tracker
 - [ ] Slides, architecture diagram, privacy note, demo video
 
@@ -45,3 +45,25 @@ Still worth checking by eye before the demo: K09, K10 and K12. The designations 
 - Acquisition cost per activation by source: field sales ₹24.3k, channel partner ₹20.9k, website ₹6.4k, inbound ₹5.1k, referral ₹4.1k (14.8% activation), WhatsApp ₹4.0k
 - 22 activated customers have a Cancelled or Suspended GSTIN: a compliance leak
 - Churn by status-chase calls: 1 call 6% → 5 calls 28%
+
+## API (run: `cd backend && uvicorn app.main:app --reload`, docs at /docs)
+| Method | Path | Purpose |
+|---|---|---|
+| POST | `/chat` | Advisor turn `{message, session_id}` → `{reply, bundle}` |
+| GET | `/catalogue` | Public product list |
+| POST | `/recommend` | Deterministic bundle from a profile (form fallback if the LLM is down) |
+| POST | `/quote` | `{items: [[pid, qty]], profile?}` → monthly total, GST, setup, contract, ETA, dependency errors |
+| GET | `/lookup/gstin/{id}`, `/lookup/udyam/{id}` | Mock registries (IDs masked) |
+| GET | `/consent/notice` | DPDP notice: purposes, data collected/not collected, retention |
+| POST/DELETE | `/consent`, `/consent/{id}` | Record consent (returns `kyc_id`) / withdraw consent (erases KYC data) |
+| POST | `/kyc/{kyc_id}/document` | Upload one document → extracted fields (masked); image not stored |
+| POST | `/kyc/{kyc_id}/verify` | Run all checks → verdict + findings |
+| POST | `/orders` | Place order (needs KYC that isn't rejected; GST-only products need an active GSTIN) |
+| GET | `/orders/{id}` | Tracker timeline + ETA |
+| POST | `/orders/{id}/advance` | Demo/back-office: move to the next stage |
+
+Uploads that match a specimen image (by SHA-256) reuse `analysis/kyc_extractions.json`, so the demo uses no Gemini quota.
+
+### Gotchas
+- Don't use `from __future__ import annotations` in `advisor.py`: the Gemini SDK can't convert string type hints for tool functions (every tool call errors out).
+- The advisor prompt must forbid setting `wants_*` flags the owner didn't ask for; otherwise Gemini adds email/backup to a kirana bundle.
