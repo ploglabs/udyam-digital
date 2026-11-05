@@ -68,7 +68,7 @@ function Tracker() {
 
   const shareText = order
     ? encodeURIComponent(
-        `${lang === "hi" ? "मेरा Accel Business ऑर्डर" : "My Accel Business order"} ${order.order_id}: ${typeof window !== "undefined" ? window.location.href : ""}`,
+        `${lang === "hi" ? "मेरा NorthStar ऑर्डर" : "My NorthStar order"} ${order.order_id}: ${typeof window !== "undefined" ? window.location.href : ""}`,
       )
     : "";
 
@@ -133,7 +133,7 @@ function Tracker() {
                           s.status === "done"
                             ? "bg-good text-white"
                             : s.status === "current"
-                              ? "border-2 border-brand bg-surface text-brand"
+                              ? "border-2 border-brand bg-surface text-brand before:absolute before:-inset-[2px] before:rounded-full before:border-2 before:border-brand before:animate-halo"
                               : "border-2 border-line bg-surface text-muted"
                         }`}
                       >
@@ -174,7 +174,7 @@ function Tracker() {
                 href={`https://wa.me/?text=${shareText}`}
                 target="_blank"
                 rel="noreferrer"
-                className="flex h-12 items-center justify-center rounded-xl border border-line bg-surface text-sm font-semibold"
+                className="btn-3d flex h-12 items-center justify-center rounded-xl border border-line bg-surface text-sm font-semibold hover:bg-sunken"
               >
                 {t("shareWa")}
               </a>

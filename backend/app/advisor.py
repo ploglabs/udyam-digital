@@ -14,7 +14,7 @@ from .catalogue import DATA_DIR, BusinessProfile, products, recommend_bundle
 from .llm import generate
 from .registry import lookup_gstin, mask
 
-SYSTEM = """You are "Accel Saathi", the digital advisor of Accel Business (a telecom) for small businesses in India.
+SYSTEM = """You are "NorthStar Saathi", the digital advisor of NorthStar (a telecom) for small businesses in India.
 Goal: in a few short questions, recommend the right bundle with one clear monthly price.
 
 Rules:
@@ -33,7 +33,7 @@ Rules:
 - After recommending: list each item with a one-line plain-language reason, the monthly total (+18% GST), one-time setup, contract length
   and expected activation days. If items were excluded (e.g. need GSTIN), say why in one line and what would unlock them.
 - Then invite them to review the quote and continue to quick KYC. If they need something complex (leased line feasibility, 10+ sites)
-  or ask for a human, offer a callback from a local Accel partner.
+  or ask for a human, offer a callback from a local NorthStar partner.
 - Never ask for Aadhaar, PAN, bank details or documents in chat; KYC happens on a separate consent screen."""
 
 
@@ -44,7 +44,7 @@ def _city_tiers() -> dict[str, int]:
 
 
 def get_city_tier(city: str) -> dict:
-    """Return the Accel city tier (1 or 2) for an Indian city."""
+    """Return the NorthStar city tier (1 or 2) for an Indian city."""
     tier = _city_tiers().get(city.strip().lower())
     if tier is None:
         return {"city": city, "tier": 2, "known": False, "note": "City not in serviceable list; assume tier 2 and confirm feasibility"}
@@ -90,7 +90,7 @@ def chat(message: str, session_id: str | None = None, ui_lang: str = "en") -> di
         wants_sms: bool = False, wants_firewall: bool = False, high_bandwidth: bool = False,
         budget_inr_per_month: int = 0,
     ) -> dict:
-        """Get the eligible bundle and exact quote from the Accel catalogue rules engine.
+        """Get the eligible bundle and exact quote from the NorthStar catalogue rules engine.
         segment: micro | prof | multi | mfg. city_tier: 1 or 2. has_gstin: true only for an Active GSTIN."""
         args = {k: v for k, v in locals().items() if k in BusinessProfile.__dataclass_fields__}
         args["budget_inr_per_month"] = budget_inr_per_month or None

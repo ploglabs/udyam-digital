@@ -196,7 +196,7 @@ def recommend_bundle(p: BusinessProfile) -> dict:
     if p.wants_sms:
         lines.append(Line("P14", 1, "SMS alerts and promotions"))
     if p.wants_firewall or (p.segment in ("mfg", "multi") and p.employees >= 10):
-        lines.append(Line("P21", sites, "Managed firewall monitored by Accel SOC"))
+        lines.append(Line("P21", sites, "Managed firewall monitored by NorthStar SOC"))
 
     # De-duplicate (keep max qty)
     merged: dict[str, Line] = {}

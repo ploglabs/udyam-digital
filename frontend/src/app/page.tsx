@@ -18,21 +18,21 @@ export default function Home() {
       <Header />
       <main className="mx-auto w-full max-w-md flex-1 px-4 pb-10">
         <section className="pt-8">
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-brand-soft px-3 py-1 text-xs font-semibold text-brand">
+          <span className="animate-fade inline-flex items-center gap-1.5 rounded-full bg-brand-soft px-3 py-1 text-xs font-semibold text-brand">
             ● Udyam Digital
           </span>
-          <h1 className="mt-3 text-[28px] font-bold leading-tight tracking-tight">{t("tagline")}</h1>
-          <p className="mt-3 text-[15px] leading-relaxed text-muted">{t("heroSub")}</p>
-          <div className="mt-6 flex flex-col gap-3">
+          <h1 style={{ ["--rise" as string]: "12px" }} className="animate-rise mt-3 text-[28px] font-bold leading-tight tracking-tight">{t("tagline")}</h1>
+          <p style={{ animationDelay: "70ms" }} className="animate-rise mt-3 text-[15px] leading-relaxed text-muted">{t("heroSub")}</p>
+          <div style={{ animationDelay: "120ms" }} className="animate-rise mt-6 flex flex-col gap-3">
             <Link
               href="/advisor"
-              className="flex h-12 items-center justify-center rounded-xl bg-brand text-[15px] font-semibold text-white hover:bg-brand-strong"
+              className="btn-3d btn-3d-solid flex h-12 items-center justify-center rounded-xl bg-brand text-[15px] font-semibold text-white hover:bg-brand-strong"
             >
               {t("start")} →
             </Link>
             <Link
               href="/track"
-              className="flex h-12 items-center justify-center rounded-xl border border-line bg-surface text-[15px] font-semibold hover:bg-sunken"
+              className="btn-3d flex h-12 items-center justify-center rounded-xl border border-line bg-surface text-[15px] font-semibold hover:bg-sunken"
             >
               {t("track")}
             </Link>
@@ -41,7 +41,7 @@ export default function Home() {
 
         <section className="mt-8 grid grid-cols-2 gap-3">
           {(["how1", "how2", "how3", "how4"] as const).map((k, i) => (
-            <div key={k} className="rounded-2xl border border-line bg-surface p-3.5">
+            <div key={k} style={{ animationDelay: `${160 + [0, 40, 70, 90][i]}ms` }} className="animate-rise rounded-2xl border border-line bg-surface p-3.5">
               <span className="grid h-7 w-7 place-items-center rounded-full bg-ink text-xs font-bold text-surface">{i + 1}</span>
               <p className="mt-2 text-sm font-medium leading-snug">{t(k)}</p>
             </div>
@@ -51,11 +51,12 @@ export default function Home() {
         <section className="mt-8">
           <h2 className="text-sm font-semibold text-muted">{lang === "hi" ? "किसके लिए" : "Built for"}</h2>
           <div className="mt-3 space-y-2">
-            {SEGMENTS.map((s) => (
+            {SEGMENTS.map((s, i) => (
               <Link
                 key={s.en}
                 href="/advisor"
-                className="flex items-center gap-3 rounded-2xl border border-line bg-surface p-3.5 hover:border-brand"
+                style={{ animationDelay: `${260 + i * 30}ms` }}
+                className="btn-3d animate-rise flex items-center gap-3 rounded-2xl border border-line bg-surface p-3.5 hover:border-brand"
               >
                 <span className="text-2xl" aria-hidden>
                   {s.icon}

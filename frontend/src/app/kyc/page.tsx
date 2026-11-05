@@ -309,7 +309,7 @@ export default function KycPage() {
                 <p className="mt-1 text-muted">
                   {lang === "hi"
                     ? "ऊपर बताई गई समस्या ठीक करके दस्तावेज़ फिर से अपलोड करें, या हमारा पार्टनर आपको कॉल करके मदद करेगा।"
-                    : "Fix the issue above and re-upload, or request a callback and a local Accel partner will help you finish."}
+                    : "Fix the issue above and re-upload, or request a callback and a local NorthStar partner will help you finish."}
                 </p>
                 <div className="mt-3 flex gap-2">
                   <Button variant="secondary" className="flex-1" onClick={() => setStep("docs")}>
@@ -421,7 +421,7 @@ function Verdict({ result, lang }: { result: KycResult; lang: string }) {
     rejected: { bg: "bg-bad-soft text-bad", icon: "✕", en: "We couldn't verify your documents", hi: "दस्तावेज़ सत्यापित नहीं हो पाए" },
   }[result.verdict];
   return (
-    <div className={`rounded-2xl p-4 ${cfg.bg}`}>
+    <div className={`animate-pop rounded-2xl p-4 ${cfg.bg}`}>
       <div className="flex items-center gap-3">
         <span className="grid h-9 w-9 place-items-center rounded-full bg-surface text-lg font-bold">{cfg.icon}</span>
         <div>

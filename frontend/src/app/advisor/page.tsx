@@ -123,7 +123,7 @@ export default function AdvisorPage() {
                 <button
                   key={q}
                   onClick={() => send(q)}
-                  className="rounded-full border border-line bg-surface px-3 py-1.5 text-sm hover:border-brand hover:text-brand"
+                  className="btn-3d animate-rise rounded-full border border-line bg-surface px-3 py-1.5 text-sm hover:border-brand hover:text-brand"
                 >
                   {q}
                 </button>
@@ -163,7 +163,7 @@ export default function AdvisorPage() {
           {bundle && (
             <button
               onClick={() => router.push("/quote")}
-              className="animate-rise flex items-center justify-between rounded-xl bg-ink px-4 py-2.5 text-left text-surface"
+              className="btn-3d btn-3d-solid animate-rise flex items-center justify-between rounded-xl bg-ink px-4 py-2.5 text-left text-surface"
             >
               <span>
                 <span className="block text-xs opacity-70">{bundle.segment}</span>
@@ -186,7 +186,7 @@ export default function AdvisorPage() {
               type="button"
               onClick={toggleVoice}
               aria-label="Voice input"
-              className={`grid h-11 w-11 shrink-0 place-items-center rounded-full border ${listening ? "animate-pulse border-brand bg-brand text-white" : "border-line text-muted"}`}
+              className={`btn-3d grid h-11 w-11 shrink-0 place-items-center rounded-full border ${listening ? "animate-pulse border-brand bg-brand text-white" : "border-line bg-surface text-muted"}`}
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <rect x="9" y="2" width="6" height="12" rx="3" />
@@ -203,7 +203,7 @@ export default function AdvisorPage() {
               type="submit"
               disabled={busy || !input.trim()}
               aria-label={t("send")}
-              className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-brand text-white disabled:bg-line"
+              className="btn-3d btn-3d-solid grid h-11 w-11 shrink-0 place-items-center rounded-full bg-brand text-white disabled:bg-line"
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M3 20l18-8L3 4v6l12 2-12 2z" />
@@ -263,7 +263,7 @@ function QuickForm({ onDone }: { onDone: (b: Bundle) => void }) {
           <button
             key={s.v}
             onClick={() => setF({ ...f, segment: s.v })}
-            className={`rounded-xl border px-3 py-2 text-left text-sm ${f.segment === s.v ? "border-brand bg-brand-soft font-medium text-brand" : "border-line"}`}
+            className={`btn-3d rounded-xl border px-3 py-2 text-left text-sm ${f.segment === s.v ? "border-brand bg-brand-soft font-medium text-brand" : "border-line bg-surface"}`}
           >
             {lang === "hi" ? s.hi : s.en}
           </button>

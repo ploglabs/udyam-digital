@@ -111,12 +111,12 @@ export default function QuotePage() {
               </div>
               <div className="mt-2.5 flex items-center justify-between">
                 {PER_UNIT.has(l.unit) ? (
-                  <div className="flex items-center rounded-full border border-line">
-                    <button className="h-8 w-9 text-lg text-muted" onClick={() => setQty(l.product_id, l.qty - 1)} aria-label="Decrease">
+                  <div className="btn-3d flex items-center rounded-full border border-line bg-surface">
+                    <button className="h-8 w-9 text-lg text-muted transition-transform duration-150 ease-out active:scale-90" onClick={() => setQty(l.product_id, l.qty - 1)} aria-label="Decrease">
                       −
                     </button>
                     <span className="w-7 text-center text-sm font-semibold tabular-nums">{l.qty}</span>
-                    <button className="h-8 w-9 text-lg text-muted" onClick={() => setQty(l.product_id, l.qty + 1)} aria-label="Increase">
+                    <button className="h-8 w-9 text-lg text-muted transition-transform duration-150 ease-out active:scale-90" onClick={() => setQty(l.product_id, l.qty + 1)} aria-label="Increase">
                       +
                     </button>
                   </div>
@@ -133,7 +133,7 @@ export default function QuotePage() {
             <button
               key={i.product_id}
               onClick={() => setQty(i.product_id, i.qty || 1)}
-              className="flex w-full items-center justify-between rounded-2xl border border-dashed border-line px-3.5 py-2.5 text-left text-sm text-muted"
+              className="btn-3d animate-rise flex w-full items-center justify-between rounded-2xl border border-dashed border-line bg-surface px-3.5 py-2.5 text-left text-sm text-muted"
             >
               <span className="line-through">{i.name}</span>
               <span className="font-semibold text-brand">+ {lang === "hi" ? "वापस जोड़ें" : "Add back"}</span>
@@ -164,12 +164,12 @@ export default function QuotePage() {
                   <button
                     key={p.id}
                     onClick={() => setQty(p.id, on ? 0 : 1)}
-                    className={`rounded-2xl border p-3 text-left transition ${on ? "border-brand bg-brand-soft" : "border-line bg-surface"}`}
+                    className={`btn-3d rounded-2xl border p-3 text-left ${on ? "border-brand bg-brand-soft" : "border-line bg-surface"}`}
                   >
                     <span className="flex items-start justify-between gap-2">
                       <span className="text-sm font-semibold leading-snug">{p.name}</span>
                       <span
-                        className={`mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full border text-xs ${on ? "border-brand bg-brand text-white" : "border-line"}`}
+                        className={`mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full border text-xs transition-colors duration-150 ${on ? "border-brand bg-brand text-white" : "border-line"}`}
                       >
                         {on ? "✓" : "+"}
                       </span>

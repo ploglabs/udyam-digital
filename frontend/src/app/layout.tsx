@@ -8,7 +8,7 @@ const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"]
 const deva = Noto_Sans_Devanagari({ variable: "--font-deva", subsets: ["devanagari"], weight: ["400", "600", "700"] });
 
 export const metadata: Metadata = {
-  title: "Accel Business · Udyam Digital",
+  title: "NorthStar · Udyam Digital",
   description: "Find, buy and activate the right connectivity bundle for your small business, in your language.",
 };
 
