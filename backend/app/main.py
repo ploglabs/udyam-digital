@@ -329,11 +329,12 @@ def backoffice_metrics(x_backoffice_key: str | None = Header(default=None)):
     by_status = {s: sum(1 for l in leads if l["status"] == s) for s in orders.LEAD_STATUSES}
     return {
         "kpis": [
+            # same numbers as the business case deck (slide 9)
             {"name": "Lead-to-activation conversion", "baseline": "7.4%", "target": "15%"},
-            {"name": "Days from lead to activation", "baseline": "17.6", "target": "≤ 7"},
-            {"name": "Acquisition cost per activation", "baseline": "₹15,000", "target": "≤ ₹6,000"},
-            {"name": "Status-chase calls per customer", "baseline": "3", "target": "≤ 0.5"},
-            {"name": "6-month churn", "baseline": "≈ 15%", "target": "≤ 10%"},
+            {"name": "Days from lead to activation", "baseline": "17.6", "target": "5"},
+            {"name": "Acquisition cost per activation", "baseline": "₹15,053", "target": "₹6,000"},
+            {"name": "6-month churn (micro retail)", "baseline": "23%", "target": "12%"},
+            {"name": "Status-chase calls per customer", "baseline": "3.0", "target": "0.5"},
         ],
         "live": {"advisor_leads": len(leads), "callbacks": sum(1 for l in leads if l["callback_phone"]),
                  **by_status, **orders.order_stats()},

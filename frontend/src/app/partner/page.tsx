@@ -313,7 +313,7 @@ function MetricsView({ m }: { m: Metrics }) {
     <div className="mt-4 grid gap-4 md:grid-cols-2">
       <Card className="md:col-span-2">
         <h2 className="font-semibold">Success metrics</h2>
-        <p className="text-xs text-muted">Baseline from last quarter&apos;s 5,000 leads; target for the first two quarters after launch.</p>
+        <p className="text-xs text-muted">Baseline from last quarter&apos;s 5,000 leads; 12-month targets from the business case.</p>
         <div className="mt-3 overflow-x-auto">
           <table className="w-full min-w-[420px] text-sm">
             <thead className="text-left text-xs text-muted">

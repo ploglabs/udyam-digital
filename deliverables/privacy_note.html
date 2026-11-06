@@ -7,7 +7,7 @@
   @page { size: A4; margin: 13mm 14mm 12mm; }
   :root { --red: #d50f25; --ink: #1a1a1a; --muted: #5f6672; --line: #e4e6eb; --tint: #fdecee; }
   * { box-sizing: border-box; }
-  body { font-family: Calibri, Carlito, "Segoe UI", Arial, sans-serif; color: var(--ink); font-size: 9.6pt; line-height: 1.32; margin: 0; }
+  body { font-family: Calibri, Carlito, "Segoe UI", Arial, sans-serif; color: var(--ink); font-size: 9.3pt; line-height: 1.3; margin: 0; }
   header { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2px solid var(--ink); padding-bottom: 5px; margin-bottom: 8px; }
   h1 { font-size: 17pt; margin: 0; letter-spacing: -0.2px; }
   header p { margin: 2px 0 0; color: var(--muted); font-size: 9pt; }
@@ -60,9 +60,10 @@
     <h2>3 · Data minimisation: what we collect, and why</h2>
     <table>
       <tr><th>Step</th><th>Collected</th><th>Why it is needed</th><th>Never collected</th></tr>
-      <tr><td>Advisor</td><td>Business type, city, staff, sites, needs (no names or IDs)</td><td>Pick an eligible bundle and price</td><td rowspan="3">Aadhaar number, bank or card details, personal photos, date of birth</td></tr>
+      <tr><td>Advisor</td><td>Business type, city, staff, sites, needs (no names or IDs)</td><td>Pick an eligible bundle and price</td><td rowspan="4">Aadhaar number, bank or card details, personal photos, date of birth</td></tr>
       <tr><td>KYC</td><td>GSTIN, Udyam no., business name and address, signatory name and ID validity, bill date</td><td>Verify the business is real, active and at that address</td></tr>
       <tr><td>Order</td><td>Mobile number</td><td>Order updates and e-sign link</td></tr>
+      <tr><td>Callback (optional)</td><td>Mobile number, only if the owner taps "Talk to a person"</td><td>So a local partner can call back</td></tr>
     </table>
   </section>
 
@@ -80,6 +81,7 @@
       <li>Identifiers are masked in the UI, in API responses and in the order record: GSTIN <code>32TT********1ZW</code>, Udyam <code>UDYAM-KL-*******801</code>, phone <code>98******10</code>.</li>
       <li>Logs record only the KYC application ID, document type and how it was read, never field values.</li>
       <li>Journey state lives in the browser's session storage and is gone when the tab closes.</li>
+      <li>The partner desk is behind an access key and shows leads as a business profile (segment, size, city tier) with a masked callback number, never names or IDs.</li>
     </ul>
   </section>
 
