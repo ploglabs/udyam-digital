@@ -30,6 +30,42 @@ const FIELD_LABELS: Record<string, string> = {
   address: "Address",
 };
 
+// Plain-Hindi version of each KYC check (the API returns English detail; shown in Hindi mode)
+const FINDING_HI: Record<string, string> = {
+  IMAGE_QUALITY: "फ़ोटो धुंधली है, कृपया साफ़ फ़ोटो फिर से अपलोड करें",
+  DOC_MISSING: "एक ज़रूरी दस्तावेज़ अपलोड नहीं हुआ",
+  GSTIN_MISSING: "सर्टिफ़िकेट पर GSTIN नहीं मिला",
+  GSTIN_FORMAT: "GSTIN का फ़ॉर्मैट",
+  GSTIN_STATE_CODE: "GSTIN का राज्य कोड मौजूद नहीं है",
+  GSTIN_CHECKSUM: "GSTIN का आख़िरी (चेक) अंक गलत है — टाइपो या छेड़छाड़ हो सकती है",
+  GSTIN_NOT_FOUND: "यह GSTIN GST रजिस्ट्री में नहीं मिला",
+  GSTIN_INACTIVE: "GST रजिस्ट्रेशन सक्रिय नहीं है (रद्द या निलंबित)",
+  GSTIN_ACTIVE: "GST रजिस्ट्रेशन रजिस्ट्री में सक्रिय है",
+  GST_NAME_MISMATCH: "सर्टिफ़िकेट पर नाम GST रजिस्ट्री से मेल नहीं खाता",
+  GST_ADDRESS_MISMATCH: "सर्टिफ़िकेट का पता रजिस्ट्री से अलग है",
+  GSTIN_STATE_MISMATCH: "GSTIN का राज्य रजिस्टर्ड राज्य से मेल नहीं खाता",
+  GSTIN_ADDRESS_STATE: "पते का राज्य GSTIN के राज्य से अलग है",
+  UDYAM_NUMBER_MISSING: "उद्यम सर्टिफ़िकेट पर नंबर खाली है",
+  UDYAM_FORMAT: "उद्यम नंबर UDYAM-XX-00-0000000 फ़ॉर्मैट में नहीं है",
+  UDYAM_NOT_FOUND: "उद्यम नंबर रजिस्ट्री में नहीं मिला",
+  UDYAM_FOUND: "उद्यम रजिस्ट्री में रजिस्टर्ड है",
+  UDYAM_NAME_MISMATCH: "उद्यम सर्टिफ़िकेट का नाम रजिस्ट्री से मेल नहीं खाता",
+  UDYAM_GST_MISMATCH: "उद्यम सर्टिफ़िकेट किसी और बिज़नेस का है",
+  UDYAM_STATE_MISMATCH: "उद्यम नंबर का राज्य कोड सर्टिफ़िकेट के राज्य से अलग है",
+  SIGNATORY_BUSINESS_MISMATCH: "हस्ताक्षरकर्ता ID किसी और बिज़नेस के लिए है",
+  SIGNATORY_DATE_UNREADABLE: "ID की वैधता तारीख़ पढ़ी नहीं जा सकी",
+  SIGNATORY_ID_EXPIRED: "हस्ताक्षरकर्ता की ID की वैधता ख़त्म हो चुकी है",
+  SIGNATORY_ID_VALID: "हस्ताक्षरकर्ता की ID वैध है",
+  SIGNATORY_NOT_PROPRIETOR: "प्रोप्राइटरशिप में हस्ताक्षरकर्ता मालिक होना चाहिए",
+  ADDRESS_DATE_MISSING: "पते के प्रमाण की तारीख़ पढ़ी नहीं जा सकी",
+  ADDRESS_PROOF_OLD: "पते का प्रमाण 90 दिन से पुराना है — नया बिल अपलोड करें",
+  ADDRESS_PROOF_FUTURE: "पते के प्रमाण पर भविष्य की तारीख़ है",
+  ADDRESS_PROOF_RECENT: "पते का प्रमाण हाल का है",
+  ADDRESS_NAME_MISMATCH: "बिल किसी और के नाम पर है, इस बिज़नेस के नाम पर नहीं",
+  ADDRESS_MISMATCH: "पते का प्रमाण GST के पते से मेल नहीं खाता",
+  ADDRESS_MATCH: "पता GST के मुख्य पते से मेल खाता है",
+};
+
 const SAMPLES = ["K12", "K02", "K11", "K07", "K06", "K05", "K01", "K04"];
 
 export default function KycPage() {
@@ -48,6 +84,7 @@ export default function KycPage() {
   const [phone, setPhone] = useState("");
   const [quote, setQuote] = useState<Quote | null>(null);
   const [cart, setCart] = useState<[string, number][]>([]);
+  const [callbackOpen, setCallbackOpen] = useState(false);
 
   useEffect(() => {
     api.consentNotice().then(setNotice).catch((e) => setErr(e.message));
@@ -63,7 +100,7 @@ export default function KycPage() {
     setErr(null);
     try {
       const purposes = ["kyc_verification", "service_activation", ...(marketing ? ["marketing"] : [])];
-      const r = await api.consent(purposes);
+      const r = await api.consent(purposes, loadJourney().sessionId);
       setKycId(r.kyc_id);
       setConsentId(r.consent_id);
       saveJourney({ kycId: r.kyc_id, consentId: r.consent_id });
@@ -268,7 +305,16 @@ export default function KycPage() {
                       >
                         {f.severity === "pass" ? "✓" : f.severity === "warn" ? "!" : "✕"}
                       </span>
-                      <span className="leading-snug">{f.message}</span>
+                      <span className="leading-snug">
+                        {lang === "hi" && FINDING_HI[f.code] ? (
+                          <>
+                            {f.code === "GSTIN_FORMAT" ? (f.severity === "pass" ? "GSTIN का फ़ॉर्मैट और चेक अंक सही है" : "GSTIN 15 अक्षर के सही फ़ॉर्मैट में नहीं है") : FINDING_HI[f.code]}
+                            {f.severity !== "pass" && <span className="block text-xs text-muted">{f.message}</span>}
+                          </>
+                        ) : (
+                          f.message
+                        )}
+                      </span>
                     </li>
                   ))}
               </ul>
@@ -315,10 +361,17 @@ export default function KycPage() {
                   <Button variant="secondary" className="flex-1" onClick={() => setStep("docs")}>
                     {t("retake")}
                   </Button>
-                  <Button variant="ghost" className="flex-1">
+                  <Button variant="ghost" className="flex-1" onClick={() => setCallbackOpen(true)}>
                     📞 {t("callback")}
                   </Button>
                 </div>
+                {callbackOpen && (
+                  <CallbackForm
+                    lang={lang}
+                    kycId={kycId}
+                    reason={result.summary[0]}
+                  />
+                )}
               </Card>
             )}
           </div>
@@ -411,6 +464,62 @@ function DocCard({
         <p className="mt-2 text-xs text-warn">⚠ {doc.quality_issues.filter((q) => /blur|unread|blank/i.test(q)).join("; ")}</p>
       )}
     </Card>
+  );
+}
+
+function CallbackForm({ lang, kycId, reason }: { lang: string; kycId: string | null; reason?: string }) {
+  const [phone, setPhone] = useState("");
+  const [done, setDone] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState<string | null>(null);
+  if (done)
+    return (
+      <p className="mt-3 rounded-xl bg-good-soft px-3 py-2 text-sm text-good" role="status">
+        {lang === "hi" ? "धन्यवाद! हमारा लोकल पार्टनर 2 घंटे में आपको कॉल करेगा।" : "Thanks! A local NorthStar partner will call you within 2 working hours."}
+      </p>
+    );
+  return (
+    <div className="mt-3 rounded-xl bg-sunken p-3">
+      <label className="block">
+        <span className="text-xs text-muted">{lang === "hi" ? "किस नंबर पर कॉल करें?" : "Which number should we call?"}</span>
+        <div className="mt-1 flex h-11 items-center rounded-xl border border-line bg-surface focus-within:border-brand">
+          <span className="pl-3 text-muted">+91</span>
+          <input
+            inputMode="numeric"
+            maxLength={10}
+            value={phone}
+            onChange={(e) => setPhone(e.target.value.replace(/\D/g, ""))}
+            className="h-full min-w-0 flex-1 bg-transparent px-2 text-[15px] tracking-wide outline-none"
+            placeholder="98XXXXXXXX"
+            aria-label={lang === "hi" ? "मोबाइल नंबर" : "Mobile number"}
+          />
+        </div>
+      </label>
+      <p className="mt-1.5 text-[11px] text-muted">
+        {lang === "hi"
+          ? "यह नंबर सिर्फ़ इस कॉल के लिए इस्तेमाल होगा; पार्टनर को पूरा नंबर नहीं दिखता।"
+          : "Used only for this call; the partner sees a masked number and dials through our call bridge."}
+      </p>
+      <Button
+        className="mt-2 w-full !h-10 !text-sm"
+        disabled={phone.length !== 10 || busy}
+        onClick={async () => {
+          setBusy(true);
+          setErr(null);
+          try {
+            await api.callback({ phone, language: lang, session_id: loadJourney().sessionId, kyc_id: kycId, reason });
+            setDone(true);
+          } catch (e) {
+            setErr((e as Error).message);
+          } finally {
+            setBusy(false);
+          }
+        }}
+      >
+        {busy && <Spinner />} {lang === "hi" ? "कॉल बुक करें" : "Request call"}
+      </Button>
+      {err && <p className="mt-2 text-sm text-bad">{err}</p>}
+    </div>
   );
 }
 

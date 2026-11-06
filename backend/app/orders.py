@@ -33,6 +33,9 @@ def _conn():
     CREATE TABLE IF NOT EXISTS kyc(id TEXT PRIMARY KEY, consent_id TEXT, created TEXT, docs TEXT, quality TEXT, result TEXT);
     CREATE TABLE IF NOT EXISTS orders(id TEXT PRIMARY KEY, created TEXT, business_name TEXT, gstin_masked TEXT,
         phone_masked TEXT, language TEXT, items TEXT, quote TEXT, kyc_id TEXT, stage INTEGER, history TEXT, eta TEXT);
+    CREATE TABLE IF NOT EXISTS leads(id TEXT PRIMARY KEY, created TEXT, updated TEXT, channel TEXT, language TEXT,
+        profile TEXT, monthly_incl_gst REAL, status TEXT, kyc_id TEXT, order_id TEXT, note TEXT,
+        callback_phone TEXT, callback_at TEXT);
     """)
     return c
 
@@ -144,3 +147,67 @@ def advance_order(oid: str) -> dict | None:
             hist = json.loads(r["history"]) + [{"stage": STAGES[r["stage"] + 1][0], "at": _now()}]
             c.execute("UPDATE orders SET stage=?, history=? WHERE id=?", (r["stage"] + 1, json.dumps(hist), o["order_id"]))
     return get_order(oid)
+
+
+# ---------- Leads (back-office view of journeys the digital flow did not close) ----------
+# Status: quoted -> kyc_started -> kyc_approved | kyc_review | kyc_rejected -> ordered
+LEAD_STATUSES = ["quoted", "kyc_started", "kyc_approved", "kyc_review", "kyc_rejected", "ordered"]
+
+
+def upsert_lead(lead_id: str, channel: str, language: str, profile: dict, monthly_incl_gst: float | None) -> None:
+    """Called when the advisor (chat or form) produces a bundle. Stores the business profile only, no name or contact."""
+    keep = {k: profile.get(k) for k in ("segment", "city_tier", "employees", "sites", "has_gstin")}
+    with _conn() as c:
+        c.execute("""INSERT INTO leads(id, created, updated, channel, language, profile, monthly_incl_gst, status)
+                     VALUES(?,?,?,?,?,?,?, 'quoted')
+                     ON CONFLICT(id) DO UPDATE SET updated=excluded.updated, profile=excluded.profile,
+                       monthly_incl_gst=excluded.monthly_incl_gst, language=excluded.language""",
+                  (lead_id, _now(), _now(), channel, language, json.dumps(keep), monthly_incl_gst))
+
+
+def advance_lead(*, lead_id: str | None = None, kyc_id: str | None = None, status: str,
+                 note: str | None = None, order_id: str | None = None, new_kyc_id: str | None = None) -> None:
+    with _conn() as c:
+        r = (c.execute("SELECT id, status FROM leads WHERE id=?", (lead_id,)).fetchone() if lead_id
+             else c.execute("SELECT id, status FROM leads WHERE kyc_id=?", (kyc_id,)).fetchone())
+        if not r:
+            return
+        # a re-verify after a rejection may move kyc_rejected -> kyc_review/ordered; never move backwards past ordered
+        if r["status"] == "ordered":
+            return
+        c.execute("UPDATE leads SET status=?, updated=?, note=COALESCE(?, note), order_id=COALESCE(?, order_id),"
+                  " kyc_id=COALESCE(?, kyc_id) WHERE id=?", (status, _now(), note, order_id, new_kyc_id, r["id"]))
+
+
+def request_callback(phone: str, language: str, lead_id: str | None, kyc_id: str | None, reason: str) -> str:
+    """Owner asked for a human. The phone number is stored only for this purpose and shown masked in the back office."""
+    with _conn() as c:
+        r = None
+        if lead_id:
+            r = c.execute("SELECT id FROM leads WHERE id=?", (lead_id,)).fetchone()
+        if not r and kyc_id:
+            r = c.execute("SELECT id FROM leads WHERE kyc_id=?", (kyc_id,)).fetchone()
+        lid = r["id"] if r else (lead_id or "CB" + uuid.uuid4().hex[:10])
+        if not r:
+            c.execute("""INSERT INTO leads(id, created, updated, channel, language, profile, status, kyc_id)
+                         VALUES(?,?,?,'callback',?,'{}','quoted',?)""", (lid, _now(), _now(), language, kyc_id))
+        c.execute("UPDATE leads SET callback_phone=?, callback_at=?, updated=?, note=COALESCE(note, ?) WHERE id=?",
+                  (phone, _now(), _now(), reason, lid))
+    return lid
+
+
+def list_leads() -> list[dict]:
+    with _conn() as c:
+        rows = c.execute("SELECT * FROM leads ORDER BY updated DESC").fetchall()
+    return [{"lead_id": r["id"], "created": r["created"], "updated": r["updated"], "channel": r["channel"],
+             "language": r["language"], "profile": json.loads(r["profile"] or "{}"),
+             "monthly_incl_gst": r["monthly_incl_gst"], "status": r["status"], "kyc_id": r["kyc_id"],
+             "order_id": r["order_id"], "note": r["note"], "callback_phone": r["callback_phone"],
+             "callback_at": r["callback_at"]} for r in rows]
+
+
+def order_stats() -> dict:
+    with _conn() as c:
+        rows = c.execute("SELECT stage FROM orders").fetchall()
+    done = sum(1 for r in rows if r["stage"] == len(STAGES) - 1)
+    return {"orders": len(rows), "activated": done, "in_progress": len(rows) - done}

@@ -74,6 +74,11 @@ export default function Home() {
         <p className="mt-8 text-center text-xs text-muted">
           Fictional operator for the Airtel SYNC hackathon · synthetic data only
         </p>
+        <p className="mt-2 text-center text-xs">
+          <Link href="/partner" className="text-muted underline underline-offset-2 hover:text-brand">
+            {lang === "hi" ? "पार्टनर / सेल्स डेस्क" : "Partner & sales desk"}
+          </Link>
+        </p>
       </main>
     </>
   );

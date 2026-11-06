@@ -151,7 +151,7 @@ export default function AdvisorPage() {
             onDone={(b) => {
               setBundle(b);
               const cart = Object.fromEntries(b.items.map((i) => [i.product_id, i.qty]));
-              saveJourney({ bundle: b, cart });
+              saveJourney({ bundle: b, cart, ...(b.session_id ? { sessionId: b.session_id } : {}) });
               router.push("/quote");
             }}
           />
@@ -300,7 +300,7 @@ function QuickForm({ onDone }: { onDone: (b: Bundle) => void }) {
           setBusy(true);
           setErr(null);
           try {
-            onDone(await api.recommend(f));
+            onDone(await api.recommend({ ...f, session_id: loadJourney().sessionId, language: lang }));
           } catch (e) {
             setErr((e as Error).message);
           } finally {

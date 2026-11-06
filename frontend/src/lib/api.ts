@@ -53,6 +53,7 @@ export type Bundle = {
   excluded: { product_id: string; name: string; reasons: string[] }[];
   quote: QuoteTotals;
   profile: Record<string, unknown>;
+  session_id?: string;
 };
 export type Product = {
   id: string;
@@ -113,6 +114,43 @@ export type ConsentNotice = {
   grievance_contact: string;
 };
 
+export type Band = "hot" | "warm" | "cold";
+export type LiveLead = {
+  lead_id: string;
+  created: string;
+  updated: string;
+  channel: "chat" | "form" | "callback";
+  language: string;
+  profile: { segment?: string; city_tier?: number; employees?: number; sites?: number; has_gstin?: boolean };
+  monthly_incl_gst: number | null;
+  status: string;
+  note: string | null;
+  callback_phone: string | null;
+  callback_at: string | null;
+  score: number;
+  band: Band;
+  next_action: string;
+};
+export type WinbackLead = {
+  lead_id: string;
+  business_type: string;
+  segment: string;
+  city: string;
+  language: string;
+  source: string;
+  stage_reached: string;
+  drop_reason: string;
+  action: string;
+  digital_fix: boolean;
+  score: number;
+  band: Band;
+};
+export type Metrics = {
+  kpis: { name: string; baseline: string; target: string }[];
+  live: Record<string, number>;
+  model: { base_rate: number; auc_holdout: number; lift_top_decile: number; drivers: { feature: string; odds_x: number }[] };
+};
+
 // ---------- Calls ----------
 export const api = {
   chat: (message: string, session_id?: string | null, language = "en") =>
@@ -126,11 +164,22 @@ export const api = {
   quote: (items: [string, number][], profile?: Record<string, unknown>) =>
     req<Quote>("/quote", { method: "POST", body: JSON.stringify({ items, profile }) }),
   consentNotice: () => req<ConsentNotice>("/consent/notice"),
-  consent: (purposes: string[]) =>
+  consent: (purposes: string[], session_id?: string | null) =>
     req<{ consent_id: string; kyc_id: string; retention: string }>("/consent", {
       method: "POST",
-      body: JSON.stringify({ purposes }),
+      body: JSON.stringify({ purposes, session_id }),
     }),
+  callback: (body: { phone: string; language: string; session_id?: string | null; kyc_id?: string | null; reason?: string }) =>
+    req<{ lead_id: string; message: string }>("/callback", { method: "POST", body: JSON.stringify(body) }),
+  backoffice: {
+    leads: (key: string) => req<LiveLead[]>("/backoffice/leads", { headers: { "X-Backoffice-Key": key } }),
+    winback: (key: string, q: { segment?: string; source?: string; digital_fix_only?: boolean; limit?: number }) => {
+      const p = new URLSearchParams();
+      Object.entries(q).forEach(([k, v]) => v !== undefined && v !== "" && v !== false && p.set(k, String(v)));
+      return req<WinbackLead[]>(`/backoffice/winback?${p}`, { headers: { "X-Backoffice-Key": key } });
+    },
+    metrics: (key: string) => req<Metrics>("/backoffice/metrics", { headers: { "X-Backoffice-Key": key } }),
+  },
   withdrawConsent: (id: string) => req<{ withdrawn: boolean }>(`/consent/${id}`, { method: "DELETE" }),
   uploadDoc: (kycId: string, file: Blob, name: string) => {
     const fd = new FormData();

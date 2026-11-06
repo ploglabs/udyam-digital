@@ -3,8 +3,8 @@
 Airtel SYNC hackathon, Track A: a digital-first acquisition and onboarding journey for MSMEs. The owner gets a bundle advisor, a transparent quote, Smart KYC and an order tracker.
 
 ## Layout
-- `frontend/`: Next.js mobile web app (advisor, quote, KYC, tracker), see `frontend/README.md`
-- `backend/`: FastAPI app, rules engine (`app/catalogue.py`), mock registries, KYC extraction and validation
+- `frontend/`: Next.js mobile web app (advisor, quote, KYC, tracker) + partner & sales desk at `/partner` (demo key `demo-partner`), see `frontend/README.md`
+- `backend/`: FastAPI app, rules engine (`app/catalogue.py`), mock registries, KYC extraction and validation, lead propensity score (`app/propensity.py`)
 - `data/`: synthetic hackathon dataset (catalogue, leads, GSTIN/Udyam registries, KYC specimens)
 - `analysis/`: KYC batch results
 - `tests/e2e_journey.py`: browser test of the whole journey
@@ -21,7 +21,7 @@ uvicorn app.main:app --port 8000
 # Web (another terminal)
 cd frontend
 npm install
-echo 'NEXT_PUBLIC_API_URL=http://localhost:8000' > .env.local
+echo 'NEXT_PUBLIC_API_URL=http://localhost:8000' > .env.local   # must match the API port
 npm run dev                     # http://localhost:3000
 
 # Browser test of the whole journey (both servers running)

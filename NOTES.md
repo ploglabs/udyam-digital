@@ -12,8 +12,11 @@
 - [x] Browser test of the whole journey (`tests/e2e_journey.py`): passes at 390×844, no console errors
 - [x] Business case deck, 10 slides on the SYNC template (`deliverables/Udyam_Digital_Business_Case.pptx` + `.pdf`; rebuild with `deliverables/build_deck.js`)
 - [x] 1-page privacy & security note (`deliverables/Privacy_Note.pdf`, source `privacy_note.html`)
-- [ ] Architecture diagram, deploy, demo video
-- [ ] Follow-ups: KYC check messages are English-only in Hindi mode; confirm the KYC retention period with legal
+- [x] Stretch goals (2026-11-06): partner & sales desk `/partner` (leads the digital journey didn't close + win-back list + metrics), propensity score (`backend/app/propensity.py`), working "Talk to a person" callback on failed KYC
+- [x] Architecture diagram, 1 page (`deliverables/Architecture.pdf`, source `architecture.html`)
+- [x] KYC check messages shown in Hindi in Hindi mode (map by finding code in `frontend/src/app/kyc/page.tsx`; English detail kept underneath for failures)
+- [ ] Deploy, demo video
+- [ ] Follow-ups: confirm the KYC retention period with legal; deck and privacy note still say "Accel Business" (app was rebranded to NorthStar)
 
 ## Gemini
 - Keys are in `backend/.env` (git-ignored), as `GEMINI_API_KEYS=k1,k2,...`. `app/llm.py` moves to the next key on a 429 error.
@@ -65,6 +68,15 @@ Still worth checking by eye before the demo: K09, K10 and K12. The designations 
 | POST | `/orders` | Place order (needs KYC that isn't rejected; GST-only products need an active GSTIN) |
 | GET | `/orders/{id}` | Tracker timeline + ETA |
 | POST | `/orders/{id}/advance` | Demo/back-office: move to the next stage |
+| POST | `/callback` | Owner asks for a human `{phone, session_id?, kyc_id?, reason?}` |
+| GET | `/backoffice/leads` | Live unclosed journeys, callbacks first, then by propensity (header `X-Backoffice-Key`, default `demo-partner`, env `BACKOFFICE_KEY`) |
+| GET | `/backoffice/winback` | Last quarter's dropped leads ranked by propensity, with next action (`segment`, `source`, `digital_fix_only`, `limit`) |
+| GET | `/backoffice/metrics` | 5 KPIs (baseline → target), live counts, model quality + drivers |
+
+### Leads and propensity
+- Every bundle from `/chat` or `/recommend` upserts a `leads` row keyed by the advisor session id (profile only, no name). `/consent` (with `session_id`), `/kyc/{id}/verify` and `/orders` move its status: quoted → kyc_started → kyc_approved / kyc_review / kyc_rejected → ordered. Ordered leads leave the partner list.
+- Propensity: L2 logistic regression (numpy, Newton) on lead-time features only (source, segment, tier, GSTIN, Udyam, employees, multi-site, internet, turnover). Holdout AUC 0.71, top-decile lift 1.9×. Biggest drivers: has GSTIN ×3.6, referral ×2.3, WhatsApp campaign ×0.4.
+- Live advisor leads are scored as source "Website form" (the closest historical channel).
 
 Uploads that match a specimen image (by SHA-256) reuse `analysis/kyc_extractions.json`, so the demo uses no Gemini quota.
 
