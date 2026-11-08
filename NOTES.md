@@ -15,7 +15,8 @@
 - [x] Stretch goals (2026-11-06): partner & sales desk `/partner` (leads the digital journey didn't close + win-back list + metrics), propensity score (`backend/app/propensity.py`), working "Talk to a person" callback on failed KYC
 - [x] Architecture diagram, 1 page (`deliverables/Architecture.pdf`, source `architecture.html`)
 - [x] KYC check messages shown in Hindi in Hindi mode (map by finding code in `frontend/src/app/kyc/page.tsx`; English detail kept underneath for failures)
-- [ ] Deploy, demo video
+- [x] Demo video: https://youtu.be/fFOwhewZ7_E (2:15, unlisted)
+- [ ] Deploy (optional; brief asks only for video + repo)
 - [x] 7-slide submission deck for the upload form (`deliverables/Udyam_Digital_Submission.pptx` + `.pdf`; rebuild with `deliverables/build_deck_7.js`), NorthStar screenshots in Hindi
 - [ ] Follow-up: confirm the KYC retention period with legal
 

@@ -10,6 +10,8 @@ const fa = require("react-icons/fa6");
 const SKILL_THEME = process.env.APPLY_THEME;
 const A = (f) => path.join(__dirname, "assets", f);
 const OUT = path.join(__dirname, "Udyam_Digital_Submission.pptx");
+const VIDEO = "https://youtu.be/fFOwhewZ7_E";
+const REPO = "https://github.com/ploglabs/udyam-digital";
 
 const THEME = {
   name: "Udyam Digital",
@@ -85,6 +87,14 @@ async function icon(Comp, color, size = 256) {
       const x = 0.65 + i * 1.05;
       s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x, y: 4.28, w: 0.97, h: 0.28, fill: { color: "FFFFFF", transparency: 85 }, line: { color: "FFFFFF", transparency: 55, width: 0.75 }, rectRadius: 0.14, objectName: `Cover pill ${i + 1}` });
       T(s, p, { x, y: 4.28, w: 0.97, h: 0.28, fontSize: 9, bold: true, color: C.background1, align: "center", valign: "middle" });
+    });
+    const links = [["Watch the demo (2:15)", VIDEO, 2.0, C.accent1], ["GitHub: ploglabs/udyam-digital", REPO, 2.1, "FFFFFF"]];
+    let lx = 0.65;
+    links.forEach(([label, url, w, fill], i) => {
+      const red = i === 0;
+      s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: lx, y: 4.72, w, h: 0.34, fill: { color: red ? fill : "FFFFFF", transparency: red ? 0 : 88 }, line: { color: red ? fill : "FFFFFF", transparency: red ? 0 : 40, width: 0.75 }, rectRadius: 0.17, objectName: `Cover link ${i + 1}` });
+      T(s, [{ text: label, options: { hyperlink: { url, tooltip: url }, color: "FFFFFF", bold: true } }], { x: lx, y: 4.72, w, h: 0.34, fontSize: 10, align: "center", valign: "middle" });
+      lx += w + 0.12;
     });
     s.addNotes("Udyam Digital turns a 17-day, paper-heavy field sale into a single sitting on a phone: a GenAI advisor in the owner's language, one transparent monthly price, KYC in minutes, and a tracker instead of follow-up calls. Business case for NorthStar's SMB arm.");
   }
@@ -195,6 +205,7 @@ async function icon(Comp, color, size = 256) {
       T(s, head, { x: colX, y: py + ph + 0.14, w: 1.34, h: 0.22, fontSize: 11, bold: true, color: C.accent1, align: "center" });
       T(s, desc, { x: colX, y: py + ph + 0.37, w: 1.34, h: 0.2, fontSize: 9, color: C.text2, align: "center" });
     });
+    T(s, [{ text: "Watch the full journey: youtu.be/fFOwhewZ7_E", options: { hyperlink: { url: VIDEO, tooltip: "Demo video" }, color: C.accent1, bold: true } }], { x: 0.6, y: 4.72, w: 5.35, h: 0.24, fontSize: 10, align: "center", valign: "middle" });
 
     card(s, 6.25, 1.45, 3.25, 2.2, C.background1, "KYC results card");
     T(s, "Smart KYC: 12 applicants, instant verdicts", { x: 6.4, y: 1.55, w: 3.0, h: 0.24, fontSize: 11, bold: true });
@@ -316,8 +327,13 @@ async function icon(Comp, color, size = 256) {
       T(s, m, { x: x + 0.62, y: y + 0.31, w: 3.7, h: 0.22, fontSize: 9.5, color: C.text2 });
     });
     card(s, 0.5, 4.5, 9.0, 0.55, C.text1, "Ask", false);
-    T(s, [{ text: "The ask  ", options: { bold: true, color: "FF5A6A" } }, { text: "Approve a 90-day, four-city pilot with partners, tracked weekly on the five metrics. The prototype already runs the full journey.", options: { color: C.background1 } }],
-      { x: 0.7, y: 4.5, w: 8.6, h: 0.55, fontSize: 11, valign: "middle" });
+    T(s, [{ text: "The ask  ", options: { bold: true, color: "FF5A6A" } }, { text: "Approve a 90-day, four-city pilot with partners, tracked weekly on the five metrics.", options: { color: C.background1 } }],
+      { x: 0.7, y: 4.5, w: 5.9, h: 0.55, fontSize: 11, valign: "middle" });
+    T(s, [
+      { text: "Demo video", options: { hyperlink: { url: VIDEO, tooltip: VIDEO }, color: "FF5A6A", bold: true } },
+      { text: "   ·   ", options: { color: C.background1 } },
+      { text: "Code on GitHub", options: { hyperlink: { url: REPO, tooltip: REPO }, color: "FF5A6A", bold: true } },
+    ], { x: 6.7, y: 4.5, w: 2.65, h: 0.55, fontSize: 11, align: "right", valign: "middle" });
     s.addNotes("The pilot needs production integrations for GSTN/Udyam APIs, DigiLocker, e-sign and payment. Everything else (advisor, rules engine, KYC checks, tracker, partner desk) is in the working prototype.");
   }
 
