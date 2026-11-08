@@ -16,7 +16,8 @@
 - [x] Architecture diagram, 1 page (`deliverables/Architecture.pdf`, source `architecture.html`)
 - [x] KYC check messages shown in Hindi in Hindi mode (map by finding code in `frontend/src/app/kyc/page.tsx`; English detail kept underneath for failures)
 - [ ] Deploy, demo video
-- [ ] Follow-ups: confirm the KYC retention period with legal; deck and privacy note still say "Accel Business" (app was rebranded to NorthStar)
+- [x] 7-slide submission deck for the upload form (`deliverables/Udyam_Digital_Submission.pptx` + `.pdf`; rebuild with `deliverables/build_deck_7.js`), NorthStar screenshots in Hindi
+- [ ] Follow-up: confirm the KYC retention period with legal
 
 ## Gemini
 - Keys are in `backend/.env` (git-ignored), as `GEMINI_API_KEYS=k1,k2,...`. `app/llm.py` moves to the next key on a 429 error.

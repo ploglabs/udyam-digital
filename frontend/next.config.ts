@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  devIndicators: false, // keep the dev badge out of demo recordings
   cacheComponents: true,
   partialPrefetching: true,
   turbopack: {
