@@ -17,7 +17,7 @@
 - [x] KYC check messages shown in Hindi in Hindi mode (map by finding code in `frontend/src/app/kyc/page.tsx`; English detail kept underneath for failures)
 - [x] Demo video: https://youtu.be/fFOwhewZ7_E (2:15, unlisted)
 - [ ] Deploy (optional; brief asks only for video + repo)
-- [x] 7-slide submission deck for the upload form (`deliverables/Udyam_Digital_Submission.pptx` + `.pdf`; rebuild with `deliverables/build_deck_7.js`), NorthStar screenshots in Hindi
+- [x] 7-slide submission deck for the upload form (`deliverables/Udyam_Digital_Submission.pptx` + `.pdf`; rebuild with `deliverables/build_deck_7.js`); the PDF is a 13-page pack: deck + contents/links + detailed business case + architecture + privacy note, built by `deliverables/build_pack.py`), NorthStar screenshots in Hindi
 - [ ] Follow-up: confirm the KYC retention period with legal
 
 ## Gemini

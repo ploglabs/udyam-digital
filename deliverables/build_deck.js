@@ -9,7 +9,7 @@ const fa = require("react-icons/fa6");
 
 const SKILL_THEME = process.env.APPLY_THEME; // path to apply_theme.js
 const A = (f) => path.join(__dirname, "assets", f);
-const OUT = path.join(__dirname, "Udyam_Digital_Business_Case.pptx");
+const OUT = process.env.DECK_OUT || path.join(__dirname, "Udyam_Digital_Business_Case.pptx");
 
 const THEME = {
   name: "Udyam Digital",
@@ -46,7 +46,7 @@ async function icon(Comp, color, size = 256) {
       { placeholder: { options: { name: "title", type: "title", x: 0.5, y: 0.7, w: 9.0, h: 0.62, fontSize: 20, bold: true, color: C.text1, align: "left", valign: "middle", margin: 0 }, text: "" } },
       { placeholder: { options: { name: "source", type: "body", x: 0.5, y: 5.2, w: 7.2, h: 0.26, fontSize: 9, color: C.text2, valign: "middle", margin: 0 }, text: "" } },
     ],
-    slideNumber: { x: 7.75, y: 5.2, w: 0.4, h: 0.26, fontSize: 9, color: C.text2, align: "right" },
+    ...(process.env.NO_SLIDE_NUMBERS ? {} : { slideNumber: { x: 7.75, y: 5.2, w: 0.4, h: 0.26, fontSize: 9, color: C.text2, align: "right" } }),
   });
 
   const content = (section, title, source) => {
@@ -66,7 +66,7 @@ async function icon(Comp, color, size = 256) {
     T(s, "Udyam Digital", { x: 0.65, y: 2.78, w: 4.4, h: 0.55, fontSize: 30, bold: true, color: C.background1, objectName: "Cover title" });
     T(s, "Find, buy and activate the right business bundle in one sitting: on a phone, in the owner's language", {
       x: 0.65, y: 3.38, w: 4.2, h: 0.75, fontSize: 14, color: C.background1, objectName: "Cover subtitle" });
-    T(s, "Enterprise Track A  ·  Business case for Accel Business", { x: 0.65, y: 4.3, w: 4.4, h: 0.3, fontSize: 11, color: C.background2, objectName: "Cover track" });
+    T(s, "Enterprise Track A  ·  Business case for NorthStar", { x: 0.65, y: 4.3, w: 4.4, h: 0.3, fontSize: 11, color: C.background2, objectName: "Cover track" });
     s.addNotes("Udyam Digital turns a 17-day, paper-heavy field sale into a single sitting on a phone: a GenAI advisor in the owner's language, one transparent monthly price, KYC in minutes, and a tracker instead of follow-up calls.");
   }
 
