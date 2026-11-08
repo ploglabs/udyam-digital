@@ -1,12 +1,13 @@
 """Build the submission files.
 
-Udyam_Digital_Submission.pptx  the 7-slide deck (PPT upload slot)
-Udyam_Digital_Submission.pdf   detailed pack (PDF upload slot):
-    1-7   the 7-slide deck
-    8     contents and links
-    9-11  Appendix A: detailed business case (drop reasons, bundles, Smart KYC)
-    12    Appendix B: solution architecture
-    13    Appendix C: data privacy and security note
+Udyam_Digital_Submission.pptx  cover + 7 evaluated slides (PPT upload slot)
+Udyam_Digital_Submission.pdf   same 8 slides + annexure (PDF upload slot;
+                               the annexure is reference only, not evaluated):
+    1-8    cover + 7 slides
+    9      annexure contents and links
+    10-12  detailed business case (drop reasons, bundles, Smart KYC)
+    13     solution architecture, full page
+    14     data privacy and security note, full page
 
 Needs: node deps (pptxgenjs, react-icons, react, react-dom, sharp) on NODE_PATH,
 APPLY_THEME=<pptx skill>/scripts/apply_theme.js, SOFFICE (command that converts
@@ -50,11 +51,11 @@ with tempfile.TemporaryDirectory() as tmp:
     chrome_pdf("privacy_note.html", HERE / "Privacy_Note.pdf")
 
     parts = [
-        ("Business case deck", PdfReader(to_pdf(deck, tmp)).pages),
-        ("Contents and links", PdfReader(to_pdf(tmp / "index.pptx", tmp)).pages),
-        ("Appendix A: detailed business case", [PdfReader(to_pdf(tmp / "business_case.pptx", tmp)).pages[i - 1] for i in APPENDIX_A]),
-        ("Appendix B: solution architecture", PdfReader(HERE / "Architecture.pdf").pages),
-        ("Appendix C: data privacy and security", PdfReader(HERE / "Privacy_Note.pdf").pages),
+        ("Submission deck", PdfReader(to_pdf(deck, tmp)).pages),
+        ("Annexure: contents and links", PdfReader(to_pdf(tmp / "index.pptx", tmp)).pages),
+        ("Annexure: detailed business case", [PdfReader(to_pdf(tmp / "business_case.pptx", tmp)).pages[i - 1] for i in APPENDIX_A]),
+        ("Annexure: solution architecture", PdfReader(HERE / "Architecture.pdf").pages),
+        ("Annexure: data privacy and security", PdfReader(HERE / "Privacy_Note.pdf").pages),
     ]
     w = PdfWriter()
     for title, pages in parts:

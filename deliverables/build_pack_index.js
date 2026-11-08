@@ -1,4 +1,4 @@
-// Contents and links page (page 8) of the detailed submission PDF.
+// Annexure contents and links page (page 9) of the detailed submission PDF.
 // Build: NODE_PATH=<deps> APPLY_THEME=<pptx skill>/scripts/apply_theme.js node build_pack_index.js <out.pptx>
 // The full pack is assembled by build_pack.py.
 const path = require("path");
@@ -51,16 +51,16 @@ async function icon(Comp, color, size = 256) {
 
   pres.addSection({ title: "Contents" });
   const s = pres.addSlide({ masterName: "CONTENT", sectionTitle: "Contents" });
-  s.addText("SUBMISSION PACK", { placeholder: "kicker" });
-  s.addText("Everything the case brief asks for, in one document", { placeholder: "title" });
+  s.addText("ANNEXURE · REFERENCE ONLY", { placeholder: "kicker" });
+  s.addText("Where each case brief deliverable lives, and all links", { placeholder: "title" });
 
   T(s, "CASE BRIEF DELIVERABLE  →  WHERE TO FIND IT", { x: 0.5, y: 1.45, w: 5.6, h: 0.2, fontSize: 9, bold: true, color: C.text2, charSpacing: 1 });
   const check = await icon(fa.FaCheck, HEX.lt1);
   const rows = [
     ["1", "Working prototype", "Demo video (2:15) and public code repository", [link("Watch the demo", VIDEO, { color: C.accent1, bold: true }), { text: "   ·   " }, link("Open the repo", REPO, { color: C.accent1, bold: true })]],
-    ["2", "Solution architecture diagram", "Components and data flows, full page", [{ text: "Appendix B · page 12", options: { bold: true, color: C.accent1 } }]],
-    ["3", "Business case (10 slides or fewer)", "Customer, value, pricing, rollout, risks", [{ text: "Pages 2–7 · Appendix A, pages 9–11", options: { bold: true, color: C.accent1 } }]],
-    ["4", "1-page data privacy and security note", "Choices made against the DPDP Act, 2023", [{ text: "Appendix C · page 13", options: { bold: true, color: C.accent1 } }]],
+    ["2", "Solution architecture diagram", "Components and data flows, full page", [{ text: "Slide 5 · full page: p. 13", options: { bold: true, color: C.accent1 } }]],
+    ["3", "Business case (10 slides or fewer)", "Customer, value, pricing, rollout, risks", [{ text: "Slides 2–8 · detail: pp. 10–12", options: { bold: true, color: C.accent1 } }]],
+    ["4", "1-page data privacy and security note", "Choices made against the DPDP Act, 2023", [{ text: "Slide 5 · full note: p. 14", options: { bold: true, color: C.accent1 } }]],
   ];
   rows.forEach(([n, head, sub, where], i) => {
     const y = 1.73 + i * 0.83;
@@ -87,7 +87,7 @@ async function icon(Comp, color, size = 256) {
     T(s, [link(label, url, { color: "FF8A96" })], { x: 6.55, y: y + 0.21, w: 2.8, h: 0.2, fontSize: 9.5 });
   });
   T(s, "Stack: Next.js · FastAPI · Gemini 2.5 Flash · SQLite. All data synthetic.", { x: 6.55, y: 4.47, w: 2.8, h: 0.42, fontSize: 9, color: "C9CDD3" });
-  T(s, "8", { x: 7.75, y: 5.2, w: 0.4, h: 0.24, fontSize: 9, color: C.text2, align: "right" });
+  T(s, "9", { x: 7.75, y: 5.2, w: 0.4, h: 0.24, fontSize: 9, color: C.text2, align: "right" });
 
   await pres.writeFile({ fileName: OUT });
   if (process.env.APPLY_THEME) await require(process.env.APPLY_THEME).applyTheme(OUT, THEME);

@@ -223,7 +223,100 @@ async function icon(Comp, color, size = 256) {
     s.addNotes("Demo flow: a Lucknow kirana owner types in Hindi. The advisor recommends fibre, 2 SIMs, POS and 2 cameras and explains why WhatsApp API needs a GSTIN. The owner tweaks the quote, gives purpose-wise consent (DPDP Act), uploads 4 documents and gets an instant verdict from 15+ checks: check digit, registry status, cross-document name and address match, bill age, ID expiry. OCR slips are repaired only when the GSTIN check digit then passes, so a tampered digit is still rejected. Images are deleted after verification.");
   }
 
-  // ---------- 5. Channels ----------
+  // ---------- 5. Architecture + privacy ----------
+  pres.addSection({ title: "Architecture and privacy" });
+  {
+    const s = content("Architecture and privacy", "Solution architecture and data privacy", "AI explains, rules decide, and personal data stays minimal",
+      "Solid boxes run in the prototype; dashed box = production integrations. Full diagram and 1-page privacy note: annexure and GitHub (deliverables/).");
+    const box = (x, y, w, h, fill, name, dashed) => s.addShape(pres.shapes.ROUNDED_RECTANGLE, {
+      x, y, w, h, fill: { color: fill }, line: { color: dashed ? "9AA0A8" : (fill === C.background1 ? "DDE0E5" : fill), width: 0.75, ...(dashed ? { dashType: "dash" } : {}) }, rectRadius: 0.07, objectName: name });
+    const head = (t, sub, x, y, w, col = C.text1) => {
+      T(s, t, { x, y, w, h: 0.2, fontSize: 10, bold: true, color: col });
+      if (sub) T(s, sub, { x, y: y + 0.2, w, h: 0.17, fontSize: 7.5, color: C.text2 });
+    };
+    const arrow = (x, y, w, name) => s.addShape(pres.shapes.LINE, { x, y, w, h: 0, line: { color: HEX.dk2, width: 1.25, beginArrowType: "triangle", endArrowType: "triangle" }, objectName: name });
+
+    // Column 1: owner's phone
+    box(0.5, 1.45, 1.4, 3.1, C.background1, "Phone column");
+    head("Owner's phone", "Next.js · EN / हिंदी", 0.6, 1.53, 1.25);
+    ["Advisor chat", "Live quote", "Consent + KYC", "Order tracker"].forEach((t, i) => {
+      box(0.6, 2.0 + i * 0.4, 1.2, 0.32, C.accent4, `Phone screen ${i + 1}`);
+      T(s, t, { x: 0.6, y: 2.0 + i * 0.4, w: 1.2, h: 0.32, fontSize: 8.5, bold: true, color: C.accent1, align: "center", valign: "middle" });
+    });
+    box(0.6, 3.68, 1.2, 0.78, C.text1, "Partner desk");
+    T(s, [{ text: "Partner desk", options: { bold: true, fontSize: 8.5, breakLine: true } }, { text: "callback queue, win-back list by propensity", options: { fontSize: 7.5 } }],
+      { x: 0.66, y: 3.72, w: 1.1, h: 0.7, color: C.background1, valign: "middle" });
+
+    arrow(1.92, 3.0, 0.26, "Phone to API");
+    T(s, "HTTPS", { x: 1.86, y: 2.78, w: 0.38, h: 0.16, fontSize: 6.5, color: C.text2, align: "center" });
+
+    // Column 2: FastAPI backend
+    box(2.2, 1.45, 2.4, 3.1, C.background2, "Backend column");
+    head("FastAPI backend", "Python · 31 automated tests", 2.3, 1.53, 2.2);
+    const mods = [
+      ["Advisor", "LLM asks, explains; never prices"],
+      ["Rules engine", "eligibility, price, GST, ETA"],
+      ["Registry lookup", "GSTIN + Udyam status"],
+      ["Consent ledger", "per purpose; withdraw erases"],
+      ["Smart KYC", "vision extract + 15 checks"],
+      ["Orders + tracker", "only after KYC passes"],
+    ];
+    mods.forEach(([h, d], i) => {
+      const x = 2.3 + (i % 2) * 1.12, y = 2.0 + Math.floor(i / 2) * 0.62;
+      box(x, y, 1.06, 0.54, C.background1, `Module ${h}`);
+      T(s, h, { x: x + 0.07, y: y + 0.06, w: 0.95, h: 0.18, fontSize: 8.5, bold: true, color: i === 4 ? C.accent1 : C.text1 });
+      T(s, d, { x: x + 0.07, y: y + 0.25, w: 0.95, h: 0.26, fontSize: 7, color: C.text2 });
+    });
+    box(2.3, 3.9, 2.2, 0.56, C.background1, "Leads module");
+    T(s, [{ text: "Leads + propensity score", options: { bold: true, fontSize: 8.5, breakLine: true } }, { text: "every quote is a lead; AUC 0.71 ranks who to call", options: { fontSize: 7, color: C.text2 } }],
+      { x: 2.37, y: 3.94, w: 2.08, h: 0.48, valign: "middle" });
+
+    arrow(4.62, 3.0, 0.26, "API to services");
+
+    // Column 3: services and data
+    const svc = [
+      ["Gemini 2.5 Flash", "chat with tool calls; document vision", 0.62],
+      ["SQLite", "consents, KYC fields (no images), orders, leads", 0.62],
+      ["Synthetic data", "catalogue, GSTIN + Udyam registries, 5,000 leads", 0.62],
+    ];
+    let sy = 1.45;
+    svc.forEach(([h, d, hh], i) => {
+      box(4.9, sy, 1.42, hh, C.background1, `Service ${i + 1}`);
+      T(s, h, { x: 4.98, y: sy + 0.06, w: 1.3, h: 0.18, fontSize: 8.5, bold: true, color: i === 0 ? C.accent1 : C.text1 });
+      T(s, d, { x: 4.98, y: sy + 0.25, w: 1.3, h: 0.34, fontSize: 7, color: C.text2 });
+      sy += hh + 0.08;
+    });
+    box(4.9, sy, 1.42, 4.55 - sy, C.background1, "Production swaps", true);
+    T(s, [{ text: "In production", options: { bold: true, fontSize: 8.5, breakLine: true } }, { text: "GSTN/Udyam APIs · DigiLocker · e-sign · WhatsApp · UPI autopay", options: { fontSize: 7, color: C.text2 } }],
+      { x: 4.98, y: sy + 0.06, w: 1.3, h: 4.45 - sy, valign: "top" });
+
+    T(s, [{ text: "Design rule  ", options: { bold: true, color: C.accent1 } }, { text: "Gemini talks and reads documents; deterministic code prices, checks and approves. No AI-invented price or verdict." }],
+      { x: 0.5, y: 4.67, w: 5.82, h: 0.36, fontSize: 9, valign: "middle" });
+
+    // Privacy panel
+    card(s, 6.5, 1.45, 3.0, 3.6, C.text1, "Privacy panel", false);
+    T(s, "PRIVACY AND SECURITY", { x: 6.68, y: 1.56, w: 2.7, h: 0.2, fontSize: 9, bold: true, color: "FF5A6A", charSpacing: 1 });
+    T(s, "Designed against the DPDP Act, 2023", { x: 6.68, y: 1.77, w: 2.7, h: 0.2, fontSize: 9, color: "C9CDD3" });
+    const pi = await Promise.all([fa.FaClipboardCheck, fa.FaFilter, fa.FaImage, fa.FaMask, fa.FaScaleBalanced, fa.FaKey].map((c) => icon(c, HEX.lt1)));
+    const P = [
+      ["Consent first", "per purpose, before upload; withdrawal erases data"],
+      ["Collect the minimum", "never Aadhaar, PAN, bank details or photos"],
+      ["Images never stored", "fields extracted, then the image is dropped"],
+      ["Masked everywhere", "GSTIN, Udyam and phone masked in UI, API, logs"],
+      ["AI never decides", "verdicts come from rule checks, with reasons"],
+      ["Locked-down access", "partner desk behind a key; upload type and size limits"],
+    ];
+    P.forEach(([h, d], i) => {
+      const y = 2.1 + i * 0.49;
+      s.addShape(pres.shapes.OVAL, { x: 6.68, y: y + 0.03, w: 0.3, h: 0.3, fill: { color: C.accent1 }, line: { color: C.accent1 }, objectName: `Privacy icon ${i + 1}` });
+      s.addImage({ data: pi[i], x: 6.755, y: y + 0.105, w: 0.15, h: 0.15, altText: h, objectName: `Privacy glyph ${i + 1}` });
+      T(s, h, { x: 7.1, y, w: 2.3, h: 0.19, fontSize: 9.5, bold: true, color: C.background1 });
+      T(s, d, { x: 7.1, y: y + 0.19, w: 2.3, h: 0.26, fontSize: 7.5, color: "C9CDD3" });
+    });
+    s.addNotes("Three tiers: a mobile web app in English and Hindi, a FastAPI backend, and Gemini plus SQLite. The rule that keeps it safe: the LLM gathers the profile and explains, but a deterministic rules engine sets every price and deterministic checks give every KYC verdict. Privacy is designed against the DPDP Act: purpose-wise consent before any upload, minimal data, document images dropped after extraction, identifiers masked, and withdrawal erases KYC data. The full architecture diagram and the 1-page privacy note are in the annexure.");
+  }
+
+  // ---------- 6. Channels ----------
   pres.addSection({ title: "Channels" });
   {
     const s = content("Channels", "Go-to-market", "Digital runs the routine sale; people win the complex accounts",
