@@ -2,7 +2,7 @@
 
 Airtel SYNC hackathon, Track A: a digital-first acquisition and onboarding journey for MSMEs. The owner gets a bundle advisor, a transparent quote, Smart KYC and an order tracker.
 
-**Demo video (2:15):** https://youtu.be/fFOwhewZ7_E · **Submission deck:** `deliverables/Udyam_Digital_Submission.pdf`
+**Demo video (2:15):** https://youtu.be/fFOwhewZ7_E · **Submission deck:** `deliverables/hooray_VITChennai.pdf`
 
 ## Layout
 - `frontend/`: Next.js mobile web app (advisor, quote, KYC, tracker) + partner & sales desk at `/partner` (demo key `demo-partner`), see `frontend/README.md`

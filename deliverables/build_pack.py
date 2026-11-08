@@ -1,7 +1,7 @@
 """Build the submission files.
 
-Udyam_Digital_Submission.pptx  cover + 7 evaluated slides (PPT upload slot)
-Udyam_Digital_Submission.pdf   same 8 slides + annexure (PDF upload slot;
+hooray_VITChennai.pptx  cover + 7 evaluated slides (PPT upload slot)
+hooray_VITChennai.pdf   same 8 slides + annexure (PDF upload slot;
                                the annexure is reference only, not evaluated):
     1-8    cover + 7 slides
     9      annexure contents and links
@@ -43,7 +43,7 @@ def chrome_pdf(html, pdf):
 
 with tempfile.TemporaryDirectory() as tmp:
     tmp = Path(tmp)
-    deck = HERE / "Udyam_Digital_Submission.pptx"
+    deck = HERE / "hooray_VITChennai.pptx"
     run(["node", "build_deck_7.js"])
     run(["node", "build_pack_index.js", str(tmp / "index.pptx")])
     run(["node", "build_deck.js"], DECK_OUT=str(tmp / "business_case.pptx"), NO_SLIDE_NUMBERS="1")
@@ -63,8 +63,8 @@ with tempfile.TemporaryDirectory() as tmp:
         for p in pages:
             w.add_page(p)
         w.add_outline_item(title, first)
-    w.add_metadata({"/Title": "Udyam Digital: submission pack", "/Author": "Team Udyam Digital"})
-    out = HERE / "Udyam_Digital_Submission.pdf"
+    w.add_metadata({"/Title": "Udyam Digital: submission pack", "/Author": "Team hooray, VIT Chennai"})
+    out = HERE / "hooray_VITChennai.pdf"
     with open(out, "wb") as f:
         w.write(f)
     print("wrote", out, len(w.pages), "pages")

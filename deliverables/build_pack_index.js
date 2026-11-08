@@ -34,7 +34,7 @@ async function icon(Comp, color, size = 256) {
   const pres = new pptxgen();
   pres.layout = "LAYOUT_16x9";
   pres.title = "Udyam Digital: submission pack contents";
-  pres.author = "Team Udyam Digital";
+  pres.author = "Team hooray, VIT Chennai";
   pres.theme = { headFontFace: THEME.headFontFace, bodyFontFace: THEME.bodyFontFace };
   const C = pres.SchemeColor;
   pres.defineSlideMaster({

@@ -9,7 +9,7 @@ const fa = require("react-icons/fa6");
 
 const SKILL_THEME = process.env.APPLY_THEME;
 const A = (f) => path.join(__dirname, "assets", f);
-const OUT = path.join(__dirname, "Udyam_Digital_Submission.pptx");
+const OUT = path.join(__dirname, "hooray_VITChennai.pptx");
 const VIDEO = "https://youtu.be/fFOwhewZ7_E";
 const REPO = "https://github.com/ploglabs/udyam-digital";
 
@@ -36,7 +36,7 @@ async function icon(Comp, color, size = 256) {
   const pres = new pptxgen();
   pres.layout = "LAYOUT_16x9"; // 10 x 5.625, same as the template
   pres.title = "Udyam Digital: submission deck";
-  pres.author = "Team Udyam Digital";
+  pres.author = "Team hooray, VIT Chennai";
   pres.theme = { headFontFace: THEME.headFontFace, bodyFontFace: THEME.bodyFontFace };
   const C = pres.SchemeColor;
 
@@ -78,6 +78,7 @@ async function icon(Comp, color, size = 256) {
   pres.addSection({ title: "Cover" });
   {
     const s = pres.addSlide({ masterName: "COVER", sectionTitle: "Cover" });
+    T(s, "Team hooray  ·  VIT Chennai", { x: 0.65, y: 5.16, w: 4.4, h: 0.26, fontSize: 11, bold: true, color: C.background1, objectName: "Cover team" });
     T(s, "ENTERPRISE TRACK A", { x: 0.65, y: 2.5, w: 4.4, h: 0.25, fontSize: 11, bold: true, color: "FF5A6A", charSpacing: 2 });
     T(s, "Udyam Digital", { x: 0.65, y: 2.78, w: 4.4, h: 0.58, fontSize: 32, bold: true, color: C.background1, objectName: "Cover title" });
     T(s, "Find, buy and activate the right business bundle in one sitting: on a phone, in the owner's language", {
